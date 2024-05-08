@@ -31,8 +31,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 // get user from db
 async function getUserFromDb(username: string) {
     const client = await clientPromise
-    const db = client.db()
-    const users = db.collection('users')
+    const db = client.db('sample_analytics')
+    const users = db.collection('customers')
     const user = await users.findOne({ username })
+    console.log(user)
     return user
 }
