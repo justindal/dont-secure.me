@@ -1,5 +1,5 @@
 import Navbar from '@components/Navbar'
-import SignIn from './components/sign-in'
+import Loginform from '@/components/loginform'
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <Navbar></Navbar>
       <main className='flex min-h-screen flex-col items-center p-24'>
         <h1 className='text-4xl font-bold mb-7'>sign in</h1>
-        <SignIn></SignIn>
+        <Loginform></Loginform>
       </main>
     </div>
   )
