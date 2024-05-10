@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useTransition } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -17,25 +17,22 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { signIn } from 'next-auth/react'
-
-const formSchema = z.object({
-  username: z
-    .string()
-    .min(3, { message: 'username must be at least three characters' })
-    .max(20, { message: 'username must be at most twenty characters' }),
-})
+import { login } from '@root/actions/login'
+import { LoginSchema } from '@root/schemas'
 
 const Loginform = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [isPending, startTransition] = useTransition()
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       username: '',
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data)
+  function onSubmit(data: z.infer<typeof LoginSchema>) {
+    startTransition(() => {
+      login(data)
+    })
   }
 
   return (
@@ -48,7 +45,7 @@ const Loginform = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder='johndoe' {...field} />
+                <Input placeholder='johndoe' {...field} disabled={isPending} />
               </FormControl>
               <FormDescription>
                 this is your username, it must be unique
@@ -57,7 +54,9 @@ const Loginform = () => {
             </FormItem>
           )}
         />
-        <Button type='submit' className='w-full'>Continue</Button>
+        <Button type='submit' className='w-full' disabled={isPending}>
+          Continue
+        </Button>
       </form>
     </Form>
   )
