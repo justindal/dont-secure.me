@@ -17,8 +17,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { login } from '@root/actions/login'
-import { LoginSchema } from '@root/schemas'
+import { login } from '@/actions/login'
+import { LoginSchema } from '@/schemas'
 
 const Loginform = () => {
   const [isPending, startTransition] = useTransition()
