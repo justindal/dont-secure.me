@@ -1,0 +1,53 @@
+'use client'
+
+import Link from 'next/link'
+import { Button } from './ui/button'
+import { Input } from '@/components/ui/input'
+import { LockOpen } from 'lucide-react'
+
+const HomeNav = () => {
+  return (
+    <nav className='sticky inset-x-0 top-0 z-50'>
+      <div className='w-full mx-auto px-4'>
+        <div className='flex h-14 justify-between'>
+          <div className='flex items-center'>
+            <Link className='flex items-center' href='#'>
+              <LockOpen className='h-6 w-6 text-blue-500' />
+              <h1 className='font-bold text-lg ml-2'></h1>
+            </Link>
+          </div>
+          <div className='flex justify-center'>
+            <nav className='hidden md:flex gap-4'>
+              <Link
+                className='font-medium flex items-center text-sm transition-colors hover:underline'
+                href='/home/suggested'
+              >
+                Suggested
+              </Link>
+              <Link
+                className='font-medium flex items-center text-sm transition-colors hover:underline'
+                href='/home/following'
+              >
+                Following
+              </Link>
+              <Link
+                className='font-medium flex items-center text-sm transition-colors hover:underline'
+                href='/messages'
+              >
+                Messages
+              </Link>
+            </nav>
+          </div>
+          <div className='flex items-center gap-4'>
+            <div className='flex w-full max-w-sm items-center space-x-2'>
+              <Input type='search' placeholder='users, posts, tags...' />
+              <Button type='submit'>search</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+export default HomeNav

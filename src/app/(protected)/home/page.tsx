@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
 import { UnauthorizedAlert } from '@/components/unauthorized'
+import HomeNav from '@/components/homenavigation'
 
 export default async function Page() {
   const session = await auth()
@@ -7,7 +8,8 @@ export default async function Page() {
 
   return (
     <div>
-      <pre>{JSON.stringify(session, null, 2)}</pre>
+      <HomeNav></HomeNav>
+      <main>hello</main>
     </div>
   )
 }
