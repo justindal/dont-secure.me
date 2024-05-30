@@ -1,11 +1,11 @@
 import NextAuth, { User } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
-import clientPromise from './lib/db'
+import db from './lib/db'
 import authConfig from './auth.config'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(db.clientPromise),
   session: { strategy: 'jwt' },
   ...authConfig,
   providers: [
@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         username: {},
       },
       authorize: async (credentials) => {
-        const user = await getUserFromDb(credentials.username as string)
+        const user = await db.getUser(credentials.username as string)
         if (user) {
           return user as User
         } else {
@@ -24,13 +24,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
 })
-
-// get user from db
-async function getUserFromDb(username: string) {
-  const client = await clientPromise
-  const db = client.db('sample_analytics')
-  const users = db.collection('customers')
-  const user = await users.findOne({ username })
-  console.log(user)
-  return user
-}
