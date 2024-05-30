@@ -1,9 +1,9 @@
 import { auth } from '@/auth'
+import { UnauthorizedAlert } from '@/components/unauthorized'
 
 export default async function Page() {
   const session = await auth()
-  console.log('session:', session)
-  // if (!session) return <div>Not authenticated</div>
+  if (!session) return UnauthorizedAlert()
 
   return (
     <div>

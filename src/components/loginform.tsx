@@ -48,7 +48,7 @@ const Loginform = () => {
                 <Input placeholder='johndoe' {...field} disabled={isPending} />
               </FormControl>
               <FormDescription>
-                this is your username, it must be unique
+                choose your username!
               </FormDescription>
               <FormMessage />
             </FormItem>
