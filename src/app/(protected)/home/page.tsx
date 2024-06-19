@@ -2,23 +2,35 @@ import { auth } from '@/auth'
 import { UnauthorizedAlert } from '@/components/unauthorized'
 import HomeNav from '@/components/homenavigation'
 import HomeSuggestedCard from '@/components/suggestedcard'
+import Feed from '@/components/feed'
+import Panel from '@/components/userpanel'
 
 import { Separator } from '@/components/ui/separator'
 
 export default async function Page() {
   const session = await auth()
-  if (!session) return UnauthorizedAlert()
+  // if (!session) return UnauthorizedAlert()
 
   return (
     <div>
-      <HomeNav></HomeNav>
+      {/* <HomeNav></HomeNav> */}
       <main>
-        <div className='flex items-center justify-center space-x-5'>
-          <HomeSuggestedCard></HomeSuggestedCard>
-          <Separator orientation='vertical'></Separator>
-          <HomeSuggestedCard></HomeSuggestedCard>
-          <Separator orientation='vertical'></Separator>
-          <HomeSuggestedCard></HomeSuggestedCard>
+        <div className='flex justify-center space-x-12'>
+          <div>
+            <HomeSuggestedCard></HomeSuggestedCard>
+          </div>
+          <div>
+            <Separator orientation='vertical'></Separator>
+          </div>
+          <div>
+            <Feed></Feed>
+          </div>
+          <div>
+            <Separator orientation='vertical'></Separator>
+          </div>
+          <div>
+            <Panel></Panel>
+          </div>
         </div>
       </main>
     </div>
