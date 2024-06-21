@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { date } from 'zod'
 
 interface PostProps {
   username: string
@@ -25,7 +24,7 @@ const Post = ({
   date,
 }: PostProps) => {
   return (
-    <Card>
+    <Card className='m-4'>
       <CardHeader>
         {title && <CardTitle>{title}</CardTitle>}
         {displayName && <CardContent>{displayName}</CardContent>}
