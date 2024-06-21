@@ -7,7 +7,7 @@ import { LockOpen } from 'lucide-react'
 
 const HomeNav = () => {
   return (
-    <nav className='inset-x-0 top-0 z-50 relative'>
+    <nav className='inset-x-0 top-0 z-50 relative mb-2'>
       <div className='w-full mx-auto px-4'>
         <div className='flex h-14 justify-between'>
           <div className='flex items-center'>
