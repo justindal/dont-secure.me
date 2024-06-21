@@ -32,13 +32,29 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect()
 }
 
+async function listDatabases(client: MongoClient) {
+  const databasesList = await client.db().admin().listDatabases()
+  console.log('Databases:')
+  databasesList.databases.forEach((db) => console.log(` - ${db.name}`))
+}
+
 async function getUser(username: string) {
   const client = await clientPromise
-  const db = client.db('sample_analytics')
-  const users = db.collection('customers')
+  const db = client.db('tester')
+  const users = db.collection('users')
   const user = await users.findOne({ username })
   console.log(user)
   return user
 }
 
-export default { clientPromise, getUser }
+async function checkDB() {
+  const client = await clientPromise
+  const database = client.db()
+  const databasesList = await database.admin().listDatabases()
+  console.log('Databases:')
+  databasesList.databases.forEach((db: { name: any }) =>
+    console.log(` - ${db.name}`)
+  )
+}
+
+export default { clientPromise, getUser, checkDB }

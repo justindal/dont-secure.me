@@ -14,6 +14,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         username: {},
       },
       authorize: async (credentials) => {
+        
+        await db.checkDB()
         const user = await db.getUser(credentials.username as string)
         if (user) {
           return user as User

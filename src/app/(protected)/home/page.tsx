@@ -9,11 +9,11 @@ import { Separator } from '@/components/ui/separator'
 
 export default async function Page() {
   const session = await auth()
-  // if (!session) return UnauthorizedAlert()
+  if (!session) return UnauthorizedAlert()
 
   return (
     <div>
-      {/* <HomeNav></HomeNav> */}
+      <HomeNav></HomeNav>
       <main>
         <div className='flex justify-center space-x-12'>
           <div>
