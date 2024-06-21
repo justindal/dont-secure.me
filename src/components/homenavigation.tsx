@@ -7,17 +7,16 @@ import { LockOpen } from 'lucide-react'
 
 const HomeNav = () => {
   return (
-    <nav className='sticky inset-x-0 top-0 z-50'>
+    <nav className='inset-x-0 top-0 z-50 relative'>
       <div className='w-full mx-auto px-4'>
         <div className='flex h-14 justify-between'>
           <div className='flex items-center'>
             <Link className='flex items-center' href='#'>
               <LockOpen className='h-6 w-6 text-blue-500' />
-              <h1 className='font-bold text-lg ml-2'></h1>
             </Link>
           </div>
-          <div className='flex justify-center'>
-            <nav className='hidden md:flex gap-4'>
+          <div className='flex justify-center items-center'>
+            <nav className='hidden md:flex gap-4 absolute left-1/2 transform -translate-x-1/2'>
               <Link
                 className='font-medium flex items-center text-sm transition-colors hover:underline'
                 href='/home/suggested'
@@ -40,7 +39,7 @@ const HomeNav = () => {
           </div>
           <div className='flex items-center gap-4'>
             <div className='flex w-full max-w-sm items-center space-x-2'>
-              <Input type='search' placeholder='users, posts, tags...' />
+              <Input type='search' placeholder='users, posts, tags...'/>
               <Button type='submit'>search</Button>
             </div>
           </div>
