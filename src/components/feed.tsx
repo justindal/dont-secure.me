@@ -13,8 +13,6 @@ const Feed = () => {
         textContent='hello this is a post'
       ></Post>
 
-      <Separator></Separator>
-
       <Post
         username='notjustin'
         title='another post'
@@ -24,34 +22,31 @@ const Feed = () => {
       <Separator></Separator>
 
       <Post
-        username='justin'
-        title='first post'
+        username='also justin'
+        title='my cool post post'
+        date='a long time ago'
+        textContent='oh wow! a post!'
+      ></Post>
+
+      <Post
+        username='justins dog'
+        title='amazing post'
+        date='just now'
+        textContent='ruff ruff!'
+      ></Post>
+
+      <Post
+        username='davidcao'
+        title='wow!'
         date='today'
-        textContent='hello this is a post'
+        textContent='hello im david'
       ></Post>
-      <Separator></Separator>
 
       <Post
-        username='notjustin'
-        title='another post'
-        date='yesterday'
-        textContent='hello this is a super cool post'
-      ></Post>
-      <Separator></Separator>
-
-      <Post
-        username='justin'
-        title='first post'
-        date='today'
-        textContent='hello this is a post'
-      ></Post>
-      <Separator></Separator>
-
-      <Post
-        username='notjustin'
-        title='another post'
-        date='yesterday'
-        textContent='hello this is a super cool post'
+        username='justind'
+        title='this is a post'
+        date='moments ago'
+        textContent='i posted this post'
       ></Post>
     </ScrollArea>
   )
