@@ -4,8 +4,9 @@ import HomeNav from '@/components/homenavigation'
 import HomeSuggestedCard from '@/components/suggestedcard'
 import Feed from '@/components/feed'
 import Panel from '@/components/userpanel'
-
 import { Separator } from '@/components/ui/separator'
+
+import NewPostButton from '@/components/newpostbutton'
 
 export default async function Page() {
   const session = await auth()
@@ -32,6 +33,7 @@ export default async function Page() {
             <Panel></Panel>
           </div>
         </div>
+        <NewPostButton></NewPostButton>
       </main>
     </div>
   )
