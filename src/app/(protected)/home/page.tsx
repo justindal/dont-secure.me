@@ -6,7 +6,7 @@ import Feed from '@/components/feed'
 import Panel from '@/components/userpanel'
 import { Separator } from '@/components/ui/separator'
 
-import NewPostButton from '@/components/newpostbutton'
+import NewPost from '@/components/newpost'
 
 export default async function Page() {
   const session = await auth()
@@ -33,7 +33,7 @@ export default async function Page() {
             <Panel></Panel>
           </div>
         </div>
-        <NewPostButton></NewPostButton>
+        <NewPost></NewPost>
       </main>
     </div>
   )
