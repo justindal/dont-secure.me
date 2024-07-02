@@ -2,7 +2,7 @@ import { AlertCircle } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-import Loginform from './loginform'
+import LoginForm from './loginForm'
 
 export function UnauthorizedAlert() {
   return (
@@ -16,7 +16,7 @@ export function UnauthorizedAlert() {
         <AlertDescription>Please log in.</AlertDescription>
       </Alert>
 
-      <Loginform />
+      <LoginForm />
     </div>
   )
 }

@@ -8,8 +8,15 @@ import { signIn } from '@/auth'
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   console.log(values)
-  await signIn('credentials', {
-    username: values.username,
-    redirectTo: '/home',
-  })
+  try {
+    await signIn('credentials', {
+      username: values.username,
+      redirectTo: '/home',
+    })
+  } catch (error) {
+    // @ts-ignore
+    if (error.message.includes('')) {
+      //
+    }
+  }
 }

@@ -8,6 +8,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
+import { Separator } from './ui/separator'
+
 interface PostProps {
   username: string
   displayName?: string
@@ -30,10 +32,10 @@ const Post = ({
         {displayName && <CardContent>{displayName}</CardContent>}
         {username && <CardContent>{'@' + username}</CardContent>}
       </CardHeader>
-      <CardContent>
+      <CardFooter>
         {textContent && <CardDescription>{textContent}</CardDescription>}
-      </CardContent>
-      <CardFooter>{date}</CardFooter>
+      </CardFooter>
+      <CardContent>{date}</CardContent>
     </Card>
   )
 }

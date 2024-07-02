@@ -1,10 +1,8 @@
 import React from 'react'
-import Loginform from '@/components/loginform'
+import LoginForm from '@components/loginForm'
 
 const page = () => {
-  return (
-    <Loginform />
-  )
+  return <LoginForm />
 }
 
 export default page

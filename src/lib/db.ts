@@ -53,7 +53,7 @@ async function checkDB() {
   const databasesList = await database.admin().listDatabases()
   console.log('Databases:')
   databasesList.databases.forEach((db: { name: any }) =>
-    console.log(` - ${db.name}`)
+    console.log(` - ${db.name}`),
   )
 }
 

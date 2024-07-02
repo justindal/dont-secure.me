@@ -13,7 +13,6 @@ import {
 import { logout } from '@/actions/logout'
 
 const Panel = () => {
-
   function signout() {
     console.log('logout')
     logout()
@@ -37,7 +36,9 @@ const Panel = () => {
         <CardTitle className='hover:underline'>Profile</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline' onClick={signout}>Logout</CardTitle>
+        <CardTitle className='hover:underline' onClick={signout}>
+          Logout
+        </CardTitle>
       </CardHeader>
     </Card>
   )

@@ -28,7 +28,6 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { SquarePlus } from 'lucide-react'
-import { title } from 'process'
 
 const NewPost = () => {
   const form = useForm({
@@ -40,13 +39,10 @@ const NewPost = () => {
 
   function onSubmit() {
     toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>submitted post!</code>
-        </pre>
-      ),
+      title: 'Post Submitted',
+      description: 'Your post has been submitted!',
     })
+    // call api to submit post
     console.log('submitted post!')
   }
 

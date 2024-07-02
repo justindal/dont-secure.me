@@ -8,9 +8,7 @@ export default {
       credentials: {
         username: {},
       },
-      authorize: undefined
+      authorize: undefined,
     }),
   ],
 } satisfies NextAuthConfig
-
-

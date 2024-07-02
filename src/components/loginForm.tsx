@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input'
 import { login } from '@/actions/login'
 import { LoginSchema } from '@/schemas'
 
-const Loginform = () => {
+const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -31,7 +31,11 @@ const Loginform = () => {
 
   function onSubmit(data: z.infer<typeof LoginSchema>) {
     startTransition(() => {
-      login(data)
+      try {
+        login(data)
+      } catch (error) {
+        console.error('User not found')
+      }
     })
   }
 
@@ -47,9 +51,7 @@ const Loginform = () => {
               <FormControl>
                 <Input placeholder='johndoe' {...field} disabled={isPending} />
               </FormControl>
-              <FormDescription>
-                choose your username!
-              </FormDescription>
+              <FormDescription>choose your username!</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -62,4 +64,4 @@ const Loginform = () => {
   )
 }
 
-export default Loginform
+export default LoginForm

@@ -39,7 +39,7 @@ const HomeNav = () => {
           </div>
           <div className='flex items-center gap-4'>
             <div className='flex w-full max-w-sm items-center space-x-2'>
-              <Input type='search' placeholder='users, posts, tags...'/>
+              <Input type='search' placeholder='users, posts, tags...' />
               <Button type='submit'>search</Button>
             </div>
           </div>

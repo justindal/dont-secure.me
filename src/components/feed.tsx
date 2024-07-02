@@ -8,6 +8,7 @@ const Feed = () => {
     <ScrollArea className='h-[90vh] w-[450px] rounded-md'>
       <Post
         username='justin'
+        displayName='justin dal'
         title='first post'
         date='today'
         textContent='hello this is a post'
@@ -19,7 +20,6 @@ const Feed = () => {
         date='yesterday'
         textContent='hello this is a super cool post'
       ></Post>
-      <Separator></Separator>
 
       <Post
         username='also justin'
