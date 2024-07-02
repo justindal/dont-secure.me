@@ -1,10 +1,11 @@
 'use client'
 
-import { set, z } from 'zod'
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useTransition } from 'react'
+import Link from 'next/link'
 
 import { AlertCircle } from 'lucide-react'
 
@@ -63,7 +64,7 @@ const LoginForm = () => {
                   <AlertTitle>No user found</AlertTitle>
                   <AlertDescription>
                     The user does not exist. Please create an account{' '}
-                    <a href='/signup' className='font-bold underline backdrop-blur-0'>here</a>.
+                    <Link href='/signup' className='font-bold underline backdrop-blur-0'>here</Link>.
                   </AlertDescription>
                 </Alert>
               )}
