@@ -20,7 +20,10 @@ export const login = async (
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
       throw error
     }
-    console.error('Error logging in: ', error)
+    if (error instanceof Error && error.message.includes('Credentials')) {
+      return { success: false }
+      
+    }
     return { success: false }
 
   }

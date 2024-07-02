@@ -43,7 +43,6 @@ async function getUser(username: string) {
   const db = client.db('tester')
   const users = db.collection('users')
   const user = await users.findOne({ username })
-  console.log(user)
   return user
 }
 
