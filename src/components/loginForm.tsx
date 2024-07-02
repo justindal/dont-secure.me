@@ -1,11 +1,15 @@
 'use client'
 
-import { z } from 'zod'
+import { set, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
 import { useTransition } from 'react'
 
+import { AlertCircle } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Form,
   FormControl,
@@ -22,6 +26,7 @@ import { LoginSchema } from '@/schemas'
 
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
+  const [hasLoginError, setLoginError] = useState(false)
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -30,12 +35,17 @@ const LoginForm = () => {
   })
 
   function onSubmit(data: z.infer<typeof LoginSchema>) {
-    startTransition(() => {
-      try {
-        login(data)
-      } catch (error) {
-        console.error('User not found')
-      }
+    startTransition(async () => {
+      login(data).then((response) => {
+        if (response == undefined || response.success) {
+          console.log('logged in')
+          setLoginError(false)
+        } else {
+          console.log('login failed')
+          console.log(response)
+          setLoginError(true)
+        }
+      })
     })
   }
 
@@ -47,6 +57,16 @@ const LoginForm = () => {
           name='username'
           render={({ field }) => (
             <FormItem>
+              {hasLoginError && (
+                <Alert className='m-3'>
+                  <AlertCircle className='h-4 w-4' />
+                  <AlertTitle>No user found</AlertTitle>
+                  <AlertDescription>
+                    The user does not exist. Please create an account{' '}
+                    <a href='/signup' className='font-bold underline backdrop-blur-0'>here</a>.
+                  </AlertDescription>
+                </Alert>
+              )}
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder='johndoe' {...field} disabled={isPending} />
