@@ -25,6 +25,8 @@ import { Input } from '@/components/ui/input'
 import { login } from '@/actions/login'
 import { LoginSchema } from '@/schemas'
 
+import RegisterDialog from './registerdialog'
+
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
   const [hasLoginError, setLoginError] = useState(false)
@@ -64,7 +66,9 @@ const LoginForm = () => {
                   <AlertTitle>No user found</AlertTitle>
                   <AlertDescription>
                     The user does not exist. Please create an account{' '}
-                    <Link href='/signup' className='font-bold underline backdrop-blur-0'>here</Link>.
+                    <RegisterDialog
+                      trigger={<Button variant='outline'>Share</Button>}
+                    ></RegisterDialog>
                   </AlertDescription>
                 </Alert>
               )}
