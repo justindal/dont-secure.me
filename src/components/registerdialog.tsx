@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -19,6 +20,9 @@ import checkUser from '@/actions/checkUser'
 import createUser from '@/actions/createUser'
 import { login } from '@/actions/login'
 
+import z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 interface RegisterDialogProps {
   trigger?: React.ReactNode
   isOpenInitial?: boolean
@@ -28,6 +32,26 @@ const RegisterDialog = ({
   trigger,
   isOpenInitial = true,
 }: RegisterDialogProps) => {
+  // zod schema for form validation
+  const form = useForm({
+    resolver: zodResolver(
+      z.object({
+        username: z
+          .string()
+          .min(3, { message: 'username must be at least one character' })
+          .max(20, { message: 'username must be at most twenty characters' })
+          .regex(/^[a-zA-Z0-9_]*$/, {
+            message: 'username must not contain special characters',
+          }),
+        name: z
+          .string()
+          .min(3)
+          .max(50)
+          .regex(/^[a-zA-Z ]*$/, { message: 'name must only contain letters' }),
+      }),
+    ),
+  })
+
   // initial state for dialog, open when trigger does not exist
   const [isOpen, setIsOpen] = useState(!trigger ? isOpenInitial : false)
 

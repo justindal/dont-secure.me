@@ -66,7 +66,7 @@ const LoginForm = () => {
                   <AlertDescription>
                     The user does not exist. Please create an account{' '}
                     <RegisterDialog
-                      trigger={<Button variant='outline'>Share</Button>}
+                      trigger={<a className='underline cursor-pointer'>here</a>}
                     ></RegisterDialog>
                   </AlertDescription>
                 </Alert>
