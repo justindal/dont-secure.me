@@ -2,7 +2,7 @@
 
 import db from '@/lib/db'
 
-export const checkUser = async (username: string) => {
+const checkUser = async (username: string) => {
   const user = await db.getUser(username)
   if (user) {
     return user
@@ -10,3 +10,5 @@ export const checkUser = async (username: string) => {
     return null
   }
 }
+
+export default checkUser

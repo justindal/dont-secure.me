@@ -15,8 +15,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { checkUser } from '@/actions/checkUser'
+import checkUser from '@/actions/checkUser'
 import createUser from '@/actions/createUser'
+import { login } from '@/actions/login'
 
 interface RegisterDialogProps {
   trigger?: React.ReactNode
@@ -62,6 +63,7 @@ const RegisterDialog = ({
       } else {
         console.log('User does not exist, creating profile...')
         await createUser(username, name)
+        await login({ username })
       }
     })()
   }
