@@ -15,8 +15,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { checkUser } from '@/actions/checkUser'
 
 interface RegisterDialogProps {
   trigger?: React.ReactNode
@@ -55,6 +54,14 @@ const RegisterDialog = ({
     event.preventDefault()
     console.log('username:', username)
     console.log('name:', name)
+    ;(async () => {
+      const user = await checkUser(username)
+      if (user) {
+        console.log('User already exists')
+      } else {
+        console.log('User does not exist')
+      }
+    })()
   }
 
   return (
