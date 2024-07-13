@@ -33,23 +33,27 @@ const RegisterDialog = ({
   isOpenInitial = true,
 }: RegisterDialogProps) => {
   // zod schema for form validation
-  const form = useForm({
-    resolver: zodResolver(
-      z.object({
-        username: z
-          .string()
-          .min(3, { message: 'username must be at least one character' })
-          .max(20, { message: 'username must be at most twenty characters' })
-          .regex(/^[a-zA-Z0-9_]*$/, {
-            message: 'username must not contain special characters',
-          }),
-        name: z
-          .string()
-          .min(3)
-          .max(50)
-          .regex(/^[a-zA-Z ]*$/, { message: 'name must only contain letters' }),
+  const schema = z.object({
+    username: z
+      .string()
+      .min(3, { message: 'username must be at least one character' })
+      .max(20, { message: 'username must be at most twenty characters' })
+      .regex(/^[a-zA-Z0-9_]*$/, {
+        message: 'username must not contain special characters',
       }),
-    ),
+    name: z
+      .string()
+      .min(3)
+      .max(50)
+      .regex(/^[a-zA-Z ]*$/, { message: 'name must only contain letters' }),
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
   })
 
   // initial state for dialog, open when trigger does not exist
@@ -100,7 +104,7 @@ const RegisterDialog = ({
           <DialogHeader>
             <DialogTitle>Create New User</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              Make changes to your profile here. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <div className='grid gap-4 py-4'>
