@@ -1,18 +1,27 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -23,6 +32,10 @@ import { login } from '@/actions/login'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { LoginSchema, RegisterSchema } from '@/schemas'
+
+import { AlertCircle } from 'lucide-react'
+
 interface RegisterDialogProps {
   trigger?: React.ReactNode
   isOpenInitial?: boolean
@@ -32,28 +45,12 @@ const RegisterDialog = ({
   trigger,
   isOpenInitial = true,
 }: RegisterDialogProps) => {
-  // zod schema for form validation
-  const schema = z.object({
-    username: z
-      .string()
-      .min(3, { message: 'username must be at least one character' })
-      .max(20, { message: 'username must be at most twenty characters' })
-      .regex(/^[a-zA-Z0-9_]*$/, {
-        message: 'username must not contain special characters',
-      }),
-    name: z
-      .string()
-      .min(3)
-      .max(50)
-      .regex(/^[a-zA-Z ]*$/, { message: 'name must only contain letters' }),
-  })
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      username: '',
+      name: '',
+    },
   })
 
   // initial state for dialog, open when trigger does not exist
@@ -62,6 +59,10 @@ const RegisterDialog = ({
   // handling form values
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
+  const [hasLoginError, setLoginError] = useState(false)
+
+  // transition state
+  const [isPending, startTransition] = useTransition()
 
   // reset dialog state upon trigger change
   useEffect(() => {
@@ -70,76 +71,65 @@ const RegisterDialog = ({
     }
   }, [isOpenInitial, trigger])
 
-  // handle changes for the input fields for form submission
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target
-    if (id === 'username') {
-      setUsername(value)
-    } else if (id === 'name') {
-      setName(value)
-    }
-  }
-
-  const onSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    console.log('username:', username)
-    console.log('name:', name)
-    ;(async () => {
-      const user = await checkUser(username)
-      if (user) {
-        console.log('User already exists')
-      } else {
-        console.log('User does not exist, creating profile...')
-        await createUser(username, name)
-        await login({ username })
-      }
-    })()
+  function onSubmit(data: z.infer<typeof RegisterSchema>) {
+    startTransition(async () => {
+      checkUser(data.username).then((response) => {
+        if (response) {
+          // user exists, prompt login
+          console.log('user exists')
+        } else {
+          console.log('user does not exist')
+        }
+      })
+    })
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <form onSubmit={onSubmit}>
-        <DialogContent className='sm:max-w-[425px]'>
-          <DialogHeader>
-            <DialogTitle>Create New User</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className='grid gap-4 py-4'>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='username' className='text-right'>
-                Username
-              </Label>
-              <Input
-                id='username'
-                value={username}
-                onChange={handleChange}
-                placeholder='johndoe'
-                className='col-span-3'
-              />
-            </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='name' className='text-right'>
-                Name
-              </Label>
-              <Input
-                id='name'
-                value={name}
-                onChange={handleChange}
-                placeholder='John Doe'
-                className='col-span-3'
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type='submit' onClick={onSubmit}>
-              Create Account
+      <DialogContent className='sm:max-w-[425px]'>
+        <DialogHeader>
+          <DialogTitle>Create New User</DialogTitle>
+          <DialogDescription>
+            Create a new profile to get started!
+          </DialogDescription>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+            <FormField
+              control={form.control}
+              name='username'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder='johndoe' {...field} />
+                  </FormControl>
+                  <FormDescription>choose your username!</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder='John Doe' {...field} />
+                  </FormControl>
+                  <FormDescription>enter your name!</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit' className='w-full'>
+              Continue
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+          </form>
+        </Form>
+      </DialogContent>
     </Dialog>
   )
 }
