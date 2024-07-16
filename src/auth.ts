@@ -1,4 +1,4 @@
-import NextAuth, { User, CredentialsSignin } from 'next-auth'
+import NextAuth, { User, CredentialsSignin, AuthError } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
 import db from './lib/db'
@@ -48,10 +48,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         } catch (error) {
           if (error instanceof InvalidLoginError) {
-            console.log('credentials error, no user found')
-            return null
+            
+            
           }
-          console.log('omomomomomo w')
         }
         return null
       },
