@@ -25,6 +25,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+import UserExistsAlert from '@/components/userexists'
+
 import checkUser from '@/actions/checkUser'
 import createUser from '@/actions/createUser'
 import { login } from '@/actions/login'
@@ -61,6 +63,9 @@ const RegisterDialog = ({
   const [name, setName] = useState('')
   const [hasLoginError, setLoginError] = useState(false)
 
+  // user exists alert
+  const [alertOpen, setAlertOpen] = useState(false)
+
   // transition state
   const [isPending, startTransition] = useTransition()
 
@@ -77,6 +82,7 @@ const RegisterDialog = ({
         if (response) {
           // user exists, prompt login
           console.log('user exists')
+          setAlertOpen(true)
         } else {
           // user does not exist, create new user
           console.log('user does not exist')
@@ -98,52 +104,55 @@ const RegisterDialog = ({
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className='sm:max-w-[425px]'>
-        <DialogHeader>
-          <DialogTitle>Create New User</DialogTitle>
-          <DialogDescription>
-            Create a new profile to get started!
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            <FormField
-              control={form.control}
-              name='username'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder='johndoe' {...field} />
-                  </FormControl>
-                  <FormDescription>choose your username!</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder='John Doe' {...field} />
-                  </FormControl>
-                  <FormDescription>enter your name!</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type='submit' className='w-full'>
-              Continue
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <div>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
+        <DialogContent className='sm:max-w-[425px]'>
+          <DialogHeader>
+            <DialogTitle>Create New User</DialogTitle>
+            <DialogDescription>
+              Create a new profile to get started!
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+              <FormField
+                control={form.control}
+                name='username'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder='johndoe' {...field} />
+                    </FormControl>
+                    <FormDescription>choose your username!</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder='John Doe' {...field} />
+                    </FormControl>
+                    <FormDescription>enter your name!</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type='submit' className='w-full' disabled={isPending}>
+                Continue
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      <UserExistsAlert isOpen={alertOpen}/>
+    </div>
   )
 }
 
