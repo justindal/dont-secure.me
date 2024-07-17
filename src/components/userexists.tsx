@@ -11,23 +11,42 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
+import { login } from '@/actions/login'
+
 interface UserExistsAlertProps {
-    isOpen: boolean
+  isOpen: boolean
+  onOpenChange: (newOpenState: boolean) => void
+  username: string
 }
 
-const UserExistsAlert = ({isOpen}: UserExistsAlertProps) => {
+const UserExistsAlert = ({
+  isOpen,
+  onOpenChange,
+  username,
+}: UserExistsAlertProps) => {
+  const handleCancel = () => {
+    // handle cancel
+    console.log('cancel')
+  }
+
+  const handleLogin = async () => {
+    // handle login
+    console.log('login')
+    await login({ username })
+  }
   return (
-    <AlertDialog open={isOpen}>
+    <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>User exists.</AlertDialogTitle>
           <AlertDialogDescription>
-            A user with this username already exists. Do you want to login instead?
+            A user with the username <strong>@{username}</strong> already
+            exists. Do you want to login instead?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Back</AlertDialogCancel>
-          <AlertDialogAction>Login</AlertDialogAction>
+          <AlertDialogCancel onClick={handleCancel}>Back</AlertDialogCancel>
+          <AlertDialogAction onClick={handleLogin}>Login</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

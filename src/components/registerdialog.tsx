@@ -4,7 +4,6 @@ import React, { useState, useEffect, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Dialog,
   DialogContent,
@@ -23,7 +22,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 
 import UserExistsAlert from '@/components/userexists'
 
@@ -34,9 +32,7 @@ import { login } from '@/actions/login'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { LoginSchema, RegisterSchema } from '@/schemas'
-
-import { AlertCircle } from 'lucide-react'
+import { RegisterSchema } from '@/schemas'
 
 interface RegisterDialogProps {
   trigger?: React.ReactNode
@@ -60,11 +56,20 @@ const RegisterDialog = ({
 
   // handling form values
   const [username, setUsername] = useState('')
-  const [name, setName] = useState('')
   const [hasLoginError, setLoginError] = useState(false)
 
   // user exists alert
   const [alertOpen, setAlertOpen] = useState(false)
+
+  // alert dialog update
+  const handleOpenChange = (newOpenState: boolean) => {
+    setAlertOpen(newOpenState)
+  }
+
+  // handle username change
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value)
+  }
 
   // transition state
   const [isPending, startTransition] = useTransition()
@@ -79,6 +84,7 @@ const RegisterDialog = ({
   function onSubmit(data: z.infer<typeof RegisterSchema>) {
     startTransition(async () => {
       await checkUser(data.username).then((response) => {
+        setUsername(data.username)
         if (response) {
           // user exists, prompt login
           console.log('user exists')
@@ -151,7 +157,7 @@ const RegisterDialog = ({
           </Form>
         </DialogContent>
       </Dialog>
-      <UserExistsAlert isOpen={alertOpen}/>
+      <UserExistsAlert isOpen={alertOpen} onOpenChange={handleOpenChange} username={username}/>
     </div>
   )
 }
