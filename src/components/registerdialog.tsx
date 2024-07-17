@@ -73,12 +73,25 @@ const RegisterDialog = ({
 
   function onSubmit(data: z.infer<typeof RegisterSchema>) {
     startTransition(async () => {
-      checkUser(data.username).then((response) => {
+      await checkUser(data.username).then((response) => {
         if (response) {
           // user exists, prompt login
           console.log('user exists')
         } else {
+          // user does not exist, create new user
           console.log('user does not exist')
+          createUser(data.username, data.name).then(() => {
+            login({ username: data.username }).then((response) => {
+              if (response == undefined || response.success) {
+                console.log('logged in')
+                setLoginError(false)
+              } else {
+                console.log('login failed')
+                console.log(response)
+                setLoginError(true)
+              }
+            })
+          })
         }
       })
     })
