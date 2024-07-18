@@ -16,7 +16,6 @@ const Feed = () => {
 
       <Post
         username='notjustin'
-        title='another post'
         date='yesterday'
         textContent='hello this is a super cool post'
       ></Post>
