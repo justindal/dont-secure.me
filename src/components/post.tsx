@@ -20,22 +20,25 @@ interface PostProps {
 
 const Post = ({
   username,
-  displayName,
   title,
   textContent,
   date,
 }: PostProps) => {
   return (
     <Card className='m-4'>
-      <CardHeader>
-        {title && <CardTitle>{title}</CardTitle>}
-        {displayName && <CardContent>{displayName}</CardContent>}
-        {username && <CardContent>{'@' + username}</CardContent>}
-      </CardHeader>
-      <CardFooter>
-        {textContent && <CardDescription>{textContent}</CardDescription>}
-      </CardFooter>
-      <CardContent>{date}</CardContent>
+      <div className='pt-2 pl-2 pb-1'>
+        {username && (
+          <div>
+            <span className="font-semibold">@{username}</span>
+            {title && ': ' + title}
+          </div>
+        )}
+      </div>
+      <Separator className=''></Separator>
+
+      {textContent && <CardContent className='p-4'>{textContent}</CardContent>}
+
+      <CardDescription className='p-4'>{date}</CardDescription>
     </Card>
   )
 }
