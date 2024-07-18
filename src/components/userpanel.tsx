@@ -11,8 +11,13 @@ import {
 } from '@/components/ui/card'
 
 import { logout } from '@/actions/logout'
+import { Session } from 'next-auth'
 
-const Panel = () => {
+interface PanelProps {
+  session: Session
+}
+
+const Panel = ({session}: PanelProps) => {
   function signout() {
     console.log('logout')
     logout()
@@ -21,22 +26,22 @@ const Panel = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='hover:underline'>Home</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>Home</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline'>Notifications</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>Notifications</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline'>Saved</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>Saved</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline'>Settings</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>Settings</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline'>Profile</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>@{session.user.username}</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline' onClick={signout}>
+        <CardTitle className='hover:underline cursor-pointer' onClick={signout}>
           Logout
         </CardTitle>
       </CardHeader>
