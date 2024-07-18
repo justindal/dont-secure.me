@@ -10,6 +10,7 @@ import NewPost from '@/components/newpost'
 
 export default async function Page() {
   const session = await auth()
+  console.log(session)
   if (!session) return UnauthorizedAlert()
 
   return (
@@ -30,7 +31,7 @@ export default async function Page() {
             <Separator orientation='vertical'></Separator>
           </div>
           <div>
-            <Panel></Panel>
+            <Panel session={session}></Panel>
           </div>
         </div>
         <NewPost></NewPost>
