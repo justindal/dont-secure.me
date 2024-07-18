@@ -1,11 +1,32 @@
-import NextAuth, { User, CredentialsSignin, AuthError } from 'next-auth'
+import NextAuth, {
+  CredentialsSignin,
+  User,
+  type DefaultSession,
+} from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
 import db from './lib/db'
 import authConfig from './auth.config'
+import { ObjectId } from 'mongodb'
 
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid username'
+}
+
+declare module 'next-auth' {
+  interface User {
+    username: string
+    date: Date
+    _id: ObjectId
+  }
+  interface Session {
+    user: {
+      name: string
+      username: string
+      _id: ObjectId
+      date: Date
+    } & DefaultSession['user']
+  }
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -18,27 +39,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         username: {},
       },
       authorize: async (credentials) => {
-        // db.checkDB()
-        // const user = await db.getUser(credentials.username as string).then((user) => {
-        //   return user as User
-        // }).catch((error) => {
-        //   console.log('credentials error, no user found')
-        //   return null
-        // })
-        // return user
-
-        // try {
-        //   if (user) {
-        //     console.log('this happened')
-        //     return user as User
-        //   }
-        // } catch (CredentialsSignin) {
-        //   console.log('credentials error, no user found')
-        //   return null
-        // }
-        // console.log('lalalalala')
-        // return null
-
         try {
           const user = await db.getUser(credentials.username as string)
           if (user) {
@@ -48,12 +48,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         } catch (error) {
           if (error instanceof InvalidLoginError) {
-            
-            
           }
         }
         return null
       },
     }),
   ],
+  callbacks: {
+    session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          username: token.username as string,
+          _id: token._id as ObjectId,
+          date: token.date as Date,
+        },
+      }
+    },
+    jwt({ token, user }) {
+      if (user) {
+        token.username = user.username
+        token._id = user._id
+        token.date = user.date
+      }
+      return token
+    }
+  },
 })
