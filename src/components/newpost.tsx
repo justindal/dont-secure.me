@@ -1,15 +1,12 @@
 'use client'
 
-import * as React from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,7 +15,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,7 +25,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { SquarePlus } from 'lucide-react'
 
-const NewPost = () => {
+import createPost from '@/actions/createPost'
+import { Session } from 'next-auth'
+
+interface Props {
+  session: Session
+}
+
+const NewPost = ({ session }: Props) => {
   const form = useForm({
     defaultValues: {
       description: '',
@@ -37,13 +40,20 @@ const NewPost = () => {
     },
   })
 
-  function onSubmit() {
+  async function onSubmit() {
     toast({
       title: 'Post Submitted',
       description: 'Your post has been submitted!',
     })
     // call api to submit post
-    console.log('submitted post!')
+    console.log('submitted post: ', form.getValues())
+    createPost({
+      title: form.getValues('title'),
+      description: form.getValues('description'),
+      user: session.user
+    })
+
+    form.reset()
   }
 
   return (
@@ -78,7 +88,23 @@ const NewPost = () => {
                         {...field}
                       />
                     </FormControl>
-
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='title'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Post Title</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='title (optional)'
+                        className='resize-none'
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

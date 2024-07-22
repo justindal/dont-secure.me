@@ -5,7 +5,7 @@ import { Separator } from './ui/separator'
 
 const Feed = () => {
   return (
-    <ScrollArea className='h-[90vh] w-[450px] rounded-md'>
+    <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
       <Post
         username='justin'
         displayName='justin dal'

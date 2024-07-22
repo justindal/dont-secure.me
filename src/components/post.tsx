@@ -25,7 +25,7 @@ const Post = ({
   date,
 }: PostProps) => {
   return (
-    <Card className='m-4'>
+    <Card className='mb-3 ml-3 mr-3'>
       <div className='pt-2 pl-2 pb-1'>
         {username && (
           <div>
