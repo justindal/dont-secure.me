@@ -14,12 +14,12 @@ class InvalidLoginError extends CredentialsSignin {
 }
 
 declare module 'next-auth' {
-  interface User {
+  export interface User {
     username: string
     date: Date
     _id: ObjectId
   }
-  interface Session {
+  export interface Session {
     user: {
       name: string
       username: string
