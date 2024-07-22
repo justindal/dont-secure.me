@@ -17,8 +17,8 @@ export default async function Page() {
     <div>
       <HomeNav></HomeNav>
       <main>
-        <div className='flex justify-center space-x-12'>
-          <div>
+        <div className='flex justify-center space-x-12 pt-1'>
+          <div className='w-[350px]'>
             <HomeSuggestedCard></HomeSuggestedCard>
           </div>
           <div>
@@ -30,11 +30,11 @@ export default async function Page() {
           <div>
             <Separator orientation='vertical'></Separator>
           </div>
-          <div>
+          <div className='w-[350px]'>
             <Panel session={session}></Panel>
           </div>
         </div>
-        <NewPost></NewPost>
+        <NewPost session={session}></NewPost>
       </main>
     </div>
   )
