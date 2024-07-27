@@ -1,0 +1,56 @@
+import React from 'react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { useState, useEffect } from 'react'
+import { uploadImage } from '@/actions/uploadImage'
+
+interface Props {
+  username: string
+}
+
+const ProfilePictureInput = ({ username }: Props) => {
+  const [file, setFile] = useState<File | null>(null)
+
+  useEffect(() => {
+    console.log(file)
+  }, [file])
+
+  const handleSubmit = async () => {
+    console.log('submit')
+    if (file) {
+      const formData = new FormData()
+      formData.append('file', file)
+      try {
+        await uploadImage(formData, username)
+      } catch {
+        console.log('error')
+      }
+    }
+  }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0])
+    }
+  }
+  return (
+    <div className='grid w-full max-w-sm items-center gap-1.5'>
+      <Label htmlFor='picture'>Profile Picture</Label>
+      <div className='flex gap-2'>
+        <Input id='picture' type='file' onChange={handleFileChange} />
+        <Button
+          disabled={!file}
+          onClick={() => {
+            console.log('upload:' + file?.name)
+            handleSubmit()
+          }}
+        >
+          Upload
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+export default ProfilePictureInput
