@@ -1,7 +1,11 @@
 import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Post from './post'
-import { Separator } from './ui/separator'
+
+interface FeedProps {
+  feedType: string
+  feedUsername?: string
+}
 
 const Feed = () => {
   return (
