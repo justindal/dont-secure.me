@@ -7,31 +7,33 @@ import { uploadImage } from '@/actions/uploadImage'
 
 interface Props {
   username: string
+  onFileChange: (file: File | null) => void
 }
 
-const ProfilePictureInput = ({ username }: Props) => {
+const ProfilePictureInput = ({ onFileChange }: Props) => {
   const [file, setFile] = useState<File | null>(null)
 
-  useEffect(() => {
-    console.log(file)
-  }, [file])
+//   useEffect(() => {
+//     console.log(file)
+//   }, [file])
 
-  const handleSubmit = async () => {
-    console.log('submit')
-    if (file) {
-      const formData = new FormData()
-      formData.append('file', file)
-      try {
-        await uploadImage(formData, username)
-      } catch {
-        console.log('error')
-      }
-    }
-  }
+  //   const handleSubmit = async () => {
+  //     console.log('submit')
+  //     if (file) {
+  //       const formData = new FormData()
+  //       formData.append('file', file)
+  //       try {
+  //         await uploadImage(formData, username)
+  //       } catch {
+  //         console.log('error')
+  //       }
+  //     }
+  //   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0])
+      onFileChange(event.target.files[0])
     }
   }
   return (
@@ -44,7 +46,7 @@ const ProfilePictureInput = ({ username }: Props) => {
           onChange={handleFileChange}
           accept='image/*'
         />
-        <Button
+        {/* <Button
           disabled={!file}
           onClick={(e) => {
             console.log('upload:' + file?.name)
@@ -53,7 +55,7 @@ const ProfilePictureInput = ({ username }: Props) => {
           }}
         >
           Upload
-        </Button>
+        </Button> */}
       </div>
     </div>
   )

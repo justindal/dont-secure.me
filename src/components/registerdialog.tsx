@@ -28,6 +28,7 @@ import ProfilePictureInput from './profilepictureinput'
 
 import checkUser from '@/actions/checkUser'
 import createUser from '@/actions/createUser'
+import { uploadImage } from '@/actions/uploadImage'
 import { login } from '@/actions/login'
 
 import z from 'zod'
@@ -82,6 +83,15 @@ const RegisterDialog = ({
     }
   }, [isOpenInitial, trigger])
 
+  // profile picture setting
+  const [profilePicture, setProfilePicture] = useState<File | null>(null)
+
+  const handleProfilePictureChange = (file: File | null) => {
+    console.log('profile picture change')
+    setProfilePicture(file)
+    console.log(file)
+  }
+
   function onSubmit(data: z.infer<typeof RegisterSchema>) {
     startTransition(async () => {
       await checkUser(data.username).then((response) => {
@@ -94,6 +104,18 @@ const RegisterDialog = ({
           // user does not exist, create new user
           console.log('user does not exist')
           createUser(data.username, data.name).then(() => {
+            // upload profile picture
+            if (profilePicture) {
+              console.log('uploading image')
+              const formData = new FormData()
+              formData.append('file', profilePicture)
+              console.log(profilePicture)
+              console.log(formData)
+              uploadImage(formData, data.username, 'pfp').then(() => {
+                console.log('uploaded')
+              })
+            }
+
             login({ username: data.username }).then((response) => {
               if (response == undefined || response.success) {
                 console.log('logged in')
@@ -151,7 +173,10 @@ const RegisterDialog = ({
                   </FormItem>
                 )}
               />
-              <ProfilePictureInput username={username} />
+              <ProfilePictureInput
+                username={username}
+                onFileChange={handleProfilePictureChange}
+              />
               <Button type='submit' className='w-full' disabled={isPending}>
                 Continue
               </Button>
@@ -159,7 +184,11 @@ const RegisterDialog = ({
           </Form>
         </DialogContent>
       </Dialog>
-      <UserExistsAlert isOpen={alertOpen} onOpenChange={handleOpenChange} username={username}/>
+      <UserExistsAlert
+        isOpen={alertOpen}
+        onOpenChange={handleOpenChange}
+        username={username}
+      />
     </div>
   )
 }

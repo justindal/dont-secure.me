@@ -3,7 +3,11 @@
 import * as objectstorage from 'oci-objectstorage'
 import * as common from 'oci-common'
 
-export const uploadImage = async (formData: FormData, username: string) => {
+export const uploadImage = async (
+  formData: FormData,
+  username: string,
+  imgType: string,
+) => {
   const provider: common.ConfigFileAuthenticationDetailsProvider =
     new common.ConfigFileAuthenticationDetailsProvider()
 
@@ -22,7 +26,7 @@ export const uploadImage = async (formData: FormData, username: string) => {
       const putObjectRequest = {
         namespaceName: process.env.NAMESPACE as string,
         bucketName: process.env.BUCKET_NAME as string,
-        objectName: `pfps/pfp_${username}.${file.type.split('/')[1]}`,
+        objectName: `${imgType}s/${imgType}_${username}.${file.type.split('/')[1]}`,
         putObjectBody: fileContent,
         contentType: file.type,
         contentLength: file.size,
