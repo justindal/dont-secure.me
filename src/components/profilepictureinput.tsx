@@ -38,11 +38,17 @@ const ProfilePictureInput = ({ username }: Props) => {
     <div className='grid w-full max-w-sm items-center gap-1.5'>
       <Label htmlFor='picture'>Profile Picture</Label>
       <div className='flex gap-2'>
-        <Input id='picture' type='file' onChange={handleFileChange} />
+        <Input
+          id='picture'
+          type='file'
+          onChange={handleFileChange}
+          accept='image/*'
+        />
         <Button
           disabled={!file}
-          onClick={() => {
+          onClick={(e) => {
             console.log('upload:' + file?.name)
+            e.preventDefault()
             handleSubmit()
           }}
         >

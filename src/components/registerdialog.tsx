@@ -24,6 +24,7 @@ import {
 import { Input } from '@/components/ui/input'
 
 import UserExistsAlert from '@/components/userexists'
+import ProfilePictureInput from './profilepictureinput'
 
 import checkUser from '@/actions/checkUser'
 import createUser from '@/actions/createUser'
@@ -150,6 +151,7 @@ const RegisterDialog = ({
                   </FormItem>
                 )}
               />
+              <ProfilePictureInput username={username} />
               <Button type='submit' className='w-full' disabled={isPending}>
                 Continue
               </Button>
