@@ -13,6 +13,8 @@ interface FeedProps {
 }
 
 const Feed = ({ feedType, feedUsername }: FeedProps) => {
+  
+
   return (
     <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
       <Post
