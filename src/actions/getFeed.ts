@@ -17,7 +17,7 @@ const getFeed = async (page = 1, limit = 20) => {
 
   const getFollowingList = async () => {
     const following = await database
-      .collection('following')
+      .collection('followers')
       .find({
         user: session.user._id,
       })
