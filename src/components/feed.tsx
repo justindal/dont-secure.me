@@ -2,12 +2,17 @@ import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Post from './post'
 
+/**
+ * @interface FeedProps
+ * @param {string} feedType - the type of feed to display, either 'following' or 'user'
+ * @param {string} feedUsername - the username of the user to display the feed for
+ */
 interface FeedProps {
   feedType: string
   feedUsername?: string
 }
 
-const Feed = () => {
+const Feed = ({ feedType, feedUsername }: FeedProps) => {
   return (
     <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
       <Post
