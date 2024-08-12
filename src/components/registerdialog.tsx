@@ -109,8 +109,6 @@ const RegisterDialog = ({
               console.log('uploading image')
               const formData = new FormData()
               formData.append('file', profilePicture)
-              console.log(profilePicture)
-              console.log(formData)
               uploadImage(formData, data.username, 'pfp').then(() => {
                 console.log('uploaded')
               })
