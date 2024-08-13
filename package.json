@@ -8,6 +8,9 @@
     "start": "next start -p 3001",
     "lint": "next lint"
   },
+  "engines": {
+    "node": "22.6.0"
+  },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.1.0",
     "@hookform/resolvers": "^3.3.4",
