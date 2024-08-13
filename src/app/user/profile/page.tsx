@@ -25,7 +25,14 @@ const page = async () => {
             <Separator orientation='vertical'></Separator>
           </div>
           <div>
-            <ProfileHead></ProfileHead>
+            <ProfileHead
+              username='johndoe'
+              displayName='john doe'
+              bio='john is a software engineer'
+              location='toronto'
+              website='john.com'
+              joinDate='2021-01-01'
+            ></ProfileHead>
             <Feed feedType='user' feedUsername={session.user.username}></Feed>
           </div>
           <div>
