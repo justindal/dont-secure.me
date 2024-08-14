@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -17,7 +18,7 @@ interface PanelProps {
   session: Session
 }
 
-const Panel = ({session}: PanelProps) => {
+const Panel = ({ session }: PanelProps) => {
   function signout() {
     console.log('logout')
     logout()
@@ -29,16 +30,24 @@ const Panel = ({session}: PanelProps) => {
         <CardTitle className='hover:underline cursor-pointer'>Home</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline cursor-pointer'>Notifications</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>
+          Notifications
+        </CardTitle>
       </CardHeader>
       <CardHeader>
         <CardTitle className='hover:underline cursor-pointer'>Saved</CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline cursor-pointer'>Settings</CardTitle>
+        <CardTitle className='hover:underline cursor-pointer'>
+          Settings
+        </CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline cursor-pointer'>@{session.user.username}</CardTitle>
+        <Link href={'/user/profile'}>
+          <CardTitle className='hover:underline cursor-pointer'>
+            @{session.user.username}
+          </CardTitle>
+        </Link>
       </CardHeader>
       <CardHeader>
         <CardTitle className='hover:underline cursor-pointer' onClick={signout}>
