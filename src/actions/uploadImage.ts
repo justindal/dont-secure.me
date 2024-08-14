@@ -2,6 +2,7 @@
 
 import * as objectstorage from 'oci-objectstorage'
 import * as common from 'oci-common'
+import db from '@/lib/db'
 
 export const uploadImage = async (
   formData: FormData,
@@ -31,6 +32,9 @@ export const uploadImage = async (
         contentType: file.type,
         contentLength: file.size,
       }
+
+      // send objectName to mongodb users collection
+      await db.updateProfilePicture(username, putObjectRequest.objectName)
 
       // Send request to the Client.
       const res = await client.putObject(putObjectRequest)

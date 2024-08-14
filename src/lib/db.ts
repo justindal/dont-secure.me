@@ -56,4 +56,14 @@ async function checkDB() {
   )
 }
 
-export default { clientPromise, getUser, checkDB }
+async function updateProfilePicture(username: string, pfpLink: string) {
+  const client = await clientPromise
+  const db = client.db('tester')
+  const users = db.collection('users')
+  const user = await users.findOne({ username })
+  if (user) {
+    users.updateOne({ username }, { $set: { pfpLink } })
+  }
+}
+
+export default { clientPromise, getUser, checkDB, updateProfilePicture }
