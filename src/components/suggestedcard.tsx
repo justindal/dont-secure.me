@@ -10,7 +10,7 @@ import {
 
 const HomeSuggestedCard = () => {
   return (
-    <Card>
+    <Card className='m-4'>
       <CardHeader>
         <CardTitle>Suggested Users</CardTitle>
         <CardDescription>users you might like!</CardDescription>

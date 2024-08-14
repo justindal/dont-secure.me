@@ -24,7 +24,7 @@ const Panel = ({session}: PanelProps) => {
   }
 
   return (
-    <Card>
+    <Card className='m-4'>
       <CardHeader>
         <CardTitle className='hover:underline cursor-pointer'>Home</CardTitle>
       </CardHeader>
