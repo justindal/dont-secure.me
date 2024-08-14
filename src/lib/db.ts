@@ -66,4 +66,16 @@ async function updateProfilePicture(username: string, pfpLink: string) {
   }
 }
 
-export default { clientPromise, getUser, checkDB, updateProfilePicture }
+async function getProfilePicture(username: string) {
+  const client = await clientPromise
+  const db = client.db('tester')
+  const users = db.collection('users')
+  const user = await users.findOne({ username })
+  if (user) {
+    if (user.pfpLink) {
+      return user.pfpLink
+    } 
+  }
+}
+
+export default { clientPromise, getUser, checkDB, updateProfilePicture, getProfilePicture }

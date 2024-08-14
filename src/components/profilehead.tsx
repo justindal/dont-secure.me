@@ -4,10 +4,11 @@
  * profile picture, display name, username, bio, location, website, join date
  */
 
-'use server'
+'use client'
 
-import React from 'react'
-import Feed from './feed'
+import React, { useState, useEffect } from 'react'
+
+import { getProfilePicture } from '@/actions/getProfilePicture'
 
 import {
   Card,
@@ -20,6 +21,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import Link from 'next/link'
+import { Readable } from 'stream'
 
 interface ProfileHeadProps {
   username: string
@@ -38,12 +40,31 @@ const ProfileHead = ({
   website, // https:
   joinDate,
 }: ProfileHeadProps) => {
-  displayName = 'justin dal'
-  username = 'justindal'
-  bio = 'justin dal is a software engineer'
-  location = 'toronto'
-  website = 'justindal.com'
-  joinDate = '2021-01-01'
+  const [imageURL, setImageURL] = useState<string | undefined>(undefined)
+  useEffect(() => {
+    console.log('useEffect called')
+    const fetchProfilePicture = async () => {
+      console.log('Fetching profile picture for username:', username)
+      try {
+        const base64Image = await getProfilePicture(username)
+        if (base64Image) {
+          setImageURL(base64Image)
+        }
+      } catch (error) {
+        console.error('Error fetching profile picture:', error)
+      }
+    }
+
+    fetchProfilePicture()
+
+    // Cleanup function to revoke the object URL
+    return () => {
+      if (imageURL) {
+        URL.revokeObjectURL(imageURL)
+      }
+    }
+  }, [username])
+
   return (
     <div className='p-1 m-1'>
       <Card>
@@ -54,7 +75,7 @@ const ProfileHead = ({
               <CardDescription> joined{joinDate}</CardDescription>
             </div>
             <Avatar className='h-16 w-16'>
-              <AvatarImage src='https://github.com/shadcn.png' />
+              <AvatarImage src={imageURL} alt='Profile Picture' />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
