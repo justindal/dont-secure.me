@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import UserExistsAlert from '@/components/userexists'
 import ProfilePictureInput from './profilepictureinput'
@@ -171,10 +172,17 @@ const RegisterDialog = ({
                   </FormItem>
                 )}
               />
-              <ProfilePictureInput
-                username={username}
-                onFileChange={handleProfilePictureChange}
-              />
+              <div className='flex items-center space-x-4'>
+                <ProfilePictureInput
+                  username={username}
+                  onFileChange={handleProfilePictureChange}
+                />
+                <Avatar className='w-14 h-14'>
+                  <AvatarImage src='https://github.com/shadcn.png' />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </div>
+
               <Button type='submit' className='w-full' disabled={isPending}>
                 Continue
               </Button>
