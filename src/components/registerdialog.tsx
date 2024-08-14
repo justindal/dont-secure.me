@@ -85,12 +85,19 @@ const RegisterDialog = ({
   }, [isOpenInitial, trigger])
 
   // profile picture setting
-  const [profilePicture, setProfilePicture] = useState<File | null>(null)
+  const [profilePicture, setProfilePicture] = useState<{
+    file: File | null
+    url: string | null
+  }>({ file: null, url: null })
 
   const handleProfilePictureChange = (file: File | null) => {
-    console.log('profile picture change')
-    setProfilePicture(file)
-    console.log(file)
+    if (file) {
+      const imageURL = URL.createObjectURL(file)
+      setProfilePicture({ file, url: imageURL })
+    }
+    else {
+      setProfilePicture({ file: null, url: null })
+    }
   }
 
   function onSubmit(data: z.infer<typeof RegisterSchema>) {
@@ -106,10 +113,10 @@ const RegisterDialog = ({
           console.log('user does not exist')
           createUser(data.username, data.name).then(() => {
             // upload profile picture
-            if (profilePicture) {
+            if (profilePicture && profilePicture.file) {
               console.log('uploading image')
               const formData = new FormData()
-              formData.append('file', profilePicture)
+              formData.append('file', profilePicture.file)
               uploadImage(formData, data.username, 'pfp').then(() => {
                 console.log('uploaded')
               })
@@ -178,8 +185,8 @@ const RegisterDialog = ({
                   onFileChange={handleProfilePictureChange}
                 />
                 <Avatar className='w-14 h-14'>
-                  <AvatarImage src='https://github.com/shadcn.png' />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src={profilePicture.url || 'j'} />
+                  <AvatarFallback>:)</AvatarFallback>
                 </Avatar>
               </div>
 
