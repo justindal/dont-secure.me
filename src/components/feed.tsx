@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Post from './post'
+import { followingFeed, homeFeed } from '@/actions/feed/getFeed'
 
 /**
  * @interface FeedProps
@@ -13,15 +14,38 @@ interface FeedProps {
 }
 
 const Feed = async ({ feedType, feedUsername }: FeedProps) => {
-
   async function getFollowingFeed() {
     // TODO: Implement the logic to fetch and return JSX for the following feed
-
+    const feed = await followingFeed()
 
     return <div>Following feed placeholder</div>
   }
 
-  return ( 
+  async function getHomeFeed() {
+    // TODO: Implement the logic to fetch and return JSX for the home feed
+    const feed = await homeFeed()
+    console.log(feed)
+    
+    if ('error' in feed) {
+      return <div>Error: {feed.error}</div>
+    }
+    
+    return (
+      <>
+        {feed.map((post) => (
+          <Post
+            key={post._id.toString()}
+            username={post.username}
+            title={post.title}
+            textContent={post.description}
+            date={post.date.toString()} // TODO fix time formatting
+          />
+        ))}
+      </>
+    )
+  }
+
+  return (
     <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
       {
         // TODO testing, remove
@@ -74,11 +98,15 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
 
       {
         // feed for specific user, including profile page
-        feedType === 'user' && <div></div>
+        feedType === 'user' && <div>User feed placeholder</div>
       }
       {
         // feed for following
-        feedType === 'following' && await getFollowingFeed()
+        feedType === 'following' && getFollowingFeed()
+      }
+      {
+        // feed for home
+        feedType === 'home' && getHomeFeed()
       }
     </ScrollArea>
   )
