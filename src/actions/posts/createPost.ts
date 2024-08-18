@@ -17,6 +17,7 @@ const createPost = async ({ title, description, user }: Post) => {
     title,
     description,
     user: user._id,
+    username: user.username,
     date: new Date(),
   })
   return post
