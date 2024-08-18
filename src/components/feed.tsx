@@ -24,7 +24,6 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
   async function getHomeFeed() {
     // TODO: Implement the logic to fetch and return JSX for the home feed
     const feed = await homeFeed()
-    console.log(feed)
     
     if ('error' in feed) {
       return <div>Error: {feed.error}</div>
