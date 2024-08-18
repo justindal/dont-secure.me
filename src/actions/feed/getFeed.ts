@@ -71,7 +71,6 @@ const userFeed = async (username: string, page = 1, limit = 20) => {
       error: 'User not found',
     }
   }
-  console.log('USER FEED', user)
   const feed = await posts
     .find({ user: user._id.toString() })
     .sort({ date: -1 })

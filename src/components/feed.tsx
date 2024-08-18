@@ -47,7 +47,6 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
   async function getUserFeed(feedUsername: string) {
     // TODO: Implement the logic to fetch and return JSX for the user feed
     const feed = await userFeed(feedUsername)
-    console.log(feed)
     if ('error' in feed) {
       return <div>Error: {feed.error}</div>
     }
