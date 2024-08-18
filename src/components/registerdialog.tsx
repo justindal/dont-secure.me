@@ -140,7 +140,7 @@ const RegisterDialog = ({
 
   return (
     <div>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog open={isOpen} onOpenChange={setIsOpen} modal>
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
@@ -185,7 +185,7 @@ const RegisterDialog = ({
                   onFileChange={handleProfilePictureChange}
                 />
                 <Avatar className='w-14 h-14'>
-                  <AvatarImage src={profilePicture.url || 'j'} />
+                  <AvatarImage src={profilePicture.url ?? undefined} />
                   <AvatarFallback>:)</AvatarFallback>
                 </Avatar>
               </div>
