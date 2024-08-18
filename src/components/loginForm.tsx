@@ -66,7 +66,11 @@ const LoginForm = () => {
                   <AlertDescription>
                     The user does not exist. Please create an account{' '}
                     <RegisterDialog
-                      trigger={<a className='underline cursor-pointer'>here</a>}
+                      trigger={
+                        <a className='underline cursor-pointer font-extrabold text-xl text-cyan-600'>
+                          here
+                        </a>
+                      }
                     ></RegisterDialog>
                   </AlertDescription>
                 </Alert>
