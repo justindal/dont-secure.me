@@ -7,6 +7,7 @@ import Panel from '@/components/userpanel'
 import Feed from '@/components/feed'
 import { Separator } from '@/components/ui/separator'
 import { UnauthorizedAlert } from '@/components/unauthorized'
+import NewPost from '@/components/newpost'
 
 const page = async () => {
   const session = await auth()
@@ -42,6 +43,7 @@ const page = async () => {
             <Panel session={session}></Panel>
           </div>
         </div>
+        <NewPost session={session}></NewPost>
       </main>
     </div>
   )
