@@ -1,10 +1,9 @@
 'use server'
 
-import checkUser from '@/actions/checkUser'
-import  { auth } from '@/auth'
+import checkUser from '@/actions/user/checkUser'
+import { auth } from '@/auth'
 
 import { UnauthorizedAlert } from '@/components/unauthorized'
-
 
 const Page = async ({ params }: { params: { user: string } }) => {
   const session = await auth()
