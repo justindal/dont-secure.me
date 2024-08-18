@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardContent,
@@ -8,7 +8,18 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-const HomeSuggestedCard = () => {
+import { getSuggestedUsers } from '@/actions/user/getSuggestedUsers'
+import Link from 'next/link'
+
+const HomeSuggestedCard = async () => {
+  async function getUsers() {
+    const suggestedUsers = (await getSuggestedUsers()) as []
+    if (suggestedUsers.length === 0) {
+      return []
+    }
+    return suggestedUsers
+  }
+
   return (
     <Card className='m-4'>
       <CardHeader>
@@ -16,11 +27,20 @@ const HomeSuggestedCard = () => {
         <CardDescription>users you might like!</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        {getUsers().then((users) => {
+          return (
+            <div>
+              {users.map((user: any) => {
+                return (
+                  <div key={user._id}>
+                    <Link href={`/user/${user.username}`}>{user.username}</Link>
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })}
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
     </Card>
   )
 }
