@@ -19,16 +19,17 @@ const HomeNav = () => {
             <nav className='hidden md:flex gap-4 absolute left-1/2 transform -translate-x-1/2'>
               <Link
                 className='font-medium flex items-center text-sm transition-colors hover:underline'
-                href='/home/suggested'
-              >
-                Suggested
-              </Link>
-              <Link
-                className='font-medium flex items-center text-sm transition-colors hover:underline'
                 href='/home/following'
               >
                 Following
               </Link>
+              <Link
+                className='font-medium flex items-center text-sm transition-colors hover:underline'
+                href='/home'
+              >
+                Feed
+              </Link>
+
               <Link
                 className='font-medium flex items-center text-sm transition-colors hover:underline'
                 href='/messages'
