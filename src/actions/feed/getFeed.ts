@@ -3,7 +3,7 @@
 import db from '@/lib/db'
 import { auth } from '@/auth'
 
-const getFeed = async (page = 1, limit = 20) => {
+const followingFeed = async (page = 1, limit = 20) => {
   const session = await auth()
   if (!session) {
     return {
@@ -22,25 +22,37 @@ const getFeed = async (page = 1, limit = 20) => {
         user: session.user._id,
       })
       .toArray()
-    return following.map((f) => f.following)
+    return following.map((f) => f.following) || []
   }
 
+  const followingList = await getFollowingList()
   const feed = await posts
-    .aggregate([
-      { $match: { user: { $in: await getFollowingList() } } },
-      { $sort: { date: -1 } },
-      { $skip: (page - 1) * limit },
-      { $limit: limit },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'user',
-          foreignField: '_id',
-          as: 'userDetails',
-        },
-      },
-      { $unwind: '$userDetails' },
-    ])
+    .find({ user: { $in: followingList } })
+    .sort({ date: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit)
     .toArray()
   return feed
 }
+
+const homeFeed = async (page = 1, limit = 20) => {
+  const session = await auth()
+  if (!session) {
+    return {
+      error: 'Not authenticated',
+    }
+  }
+
+  const client = await db.clientPromise
+  const database = client.db(process.env.DB_NAME)
+  const posts = database.collection('posts')
+
+  // randomly get posts from database
+  const feed = await posts.find().sort({ date: -1 }).limit(limit).toArray()
+  // Shuffle the array
+  const shuffledFeed = feed.sort(() => 0.5 - Math.random())
+
+  return shuffledFeed.slice(0, limit)
+}
+
+export { followingFeed, homeFeed }
