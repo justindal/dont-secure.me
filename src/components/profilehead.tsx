@@ -69,11 +69,11 @@ const ProfileHead = ({
           <div className='flex justify-between items-center'>
             <div>
               {displayName && <CardTitle>{displayName}</CardTitle>}@{username}
-              <CardDescription> joined{joinDate}</CardDescription>
+              <CardDescription> joined {joinDate}</CardDescription>
             </div>
             <Avatar className='h-16 w-16'>
               <AvatarImage src={imageURL} alt='Profile Picture' />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>:)</AvatarFallback>
             </Avatar>
           </div>
         </CardHeader>

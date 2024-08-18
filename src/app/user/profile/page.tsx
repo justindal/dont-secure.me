@@ -32,7 +32,7 @@ const page = async () => {
               bio='john is a software engineer'
               location='toronto'
               website='john.com'
-              joinDate='2021-01-01'
+              joinDate={new Date(session.user.date).toLocaleDateString()}
             ></ProfileHead>
             <Feed feedType='user' feedUsername={session.user.username}></Feed>{' '}
             {

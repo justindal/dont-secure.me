@@ -61,7 +61,9 @@ const Post = ({ username, title, textContent, date }: PostProps) => {
 
       {textContent && <CardContent className='p-4'>{textContent}</CardContent>}
 
-      <CardDescription className='p-4'>{date}</CardDescription>
+      <CardDescription className='p-4'>
+        {new Date(date).toLocaleDateString()}
+      </CardDescription>
     </Card>
   )
 }
