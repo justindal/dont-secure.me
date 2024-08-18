@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Post from './post'
-import { followingFeed, homeFeed } from '@/actions/feed/getFeed'
+import { followingFeed, homeFeed, userFeed } from '@/actions/feed/getFeed'
 
 /**
  * @interface FeedProps
@@ -24,11 +24,34 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
   async function getHomeFeed() {
     // TODO: Implement the logic to fetch and return JSX for the home feed
     const feed = await homeFeed()
-    
+
     if ('error' in feed) {
       return <div>Error: {feed.error}</div>
     }
-    
+
+    return (
+      <>
+        {feed.map((post) => (
+          <Post
+            key={post._id.toString()}
+            username={post.username}
+            title={post.title}
+            textContent={post.description}
+            date={post.date.toString()} // TODO fix time formatting
+          />
+        ))}
+      </>
+    )
+  }
+
+  async function getUserFeed(feedUsername: string) {
+    // TODO: Implement the logic to fetch and return JSX for the user feed
+    const feed = await userFeed(feedUsername)
+    console.log(feed)
+    if ('error' in feed) {
+      return <div>Error: {feed.error}</div>
+    }
+
     return (
       <>
         {feed.map((post) => (
@@ -96,13 +119,15 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
       }
 
       {
-        // feed for specific user, including profile page
-        feedType === 'user' && <div>User feed placeholder</div>
+        // feed for specific user
+        feedUsername && feedType === 'user' && getUserFeed(feedUsername)
       }
+
       {
         // feed for following
         feedType === 'following' && getFollowingFeed()
       }
+
       {
         // feed for home
         feedType === 'home' && getHomeFeed()

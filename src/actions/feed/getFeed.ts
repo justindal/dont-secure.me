@@ -55,4 +55,30 @@ const homeFeed = async (page = 1, limit = 20) => {
   return shuffledFeed.slice(0, limit)
 }
 
-export { followingFeed, homeFeed }
+const userFeed = async (username: string, page = 1, limit = 20) => {
+  const session = await auth()
+  if (!session) {
+    return {
+      error: 'Not authenticated',
+    }
+  }
+  const client = await db.clientPromise
+  const database = client.db(process.env.DB_NAME)
+  const posts = database.collection('posts')
+  const user = await database.collection('users').findOne({ username })
+  if (!user) {
+    return {
+      error: 'User not found',
+    }
+  }
+  console.log('USER FEED', user)
+  const feed = await posts
+    .find({ user: user._id.toString() })
+    .sort({ date: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .toArray()
+  return feed
+}
+
+export { followingFeed, homeFeed, userFeed }
