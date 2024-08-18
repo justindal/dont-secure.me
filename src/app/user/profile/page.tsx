@@ -26,8 +26,8 @@ const page = async () => {
           </div>
           <div>
             <ProfileHead
-              username='pfptest'
-              displayName='john doe'
+              username={session.user.username}
+              displayName={session.user.name}
               bio='john is a software engineer'
               location='toronto'
               website='john.com'

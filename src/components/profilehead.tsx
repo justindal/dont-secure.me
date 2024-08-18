@@ -21,14 +21,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import Link from 'next/link'
-import { Readable } from 'stream'
 
 interface ProfileHeadProps {
   username: string
-  displayName: string
-  bio: string
-  location: string
-  website: string
+  displayName?: string
+  bio?: string
+  location?: string
+  website?: string
   joinDate: string
 }
 
@@ -42,9 +41,7 @@ const ProfileHead = ({
 }: ProfileHeadProps) => {
   const [imageURL, setImageURL] = useState<string | undefined>(undefined)
   useEffect(() => {
-    console.log('useEffect called')
     const fetchProfilePicture = async () => {
-      console.log('Fetching profile picture for username:', username)
       try {
         const base64Image = await getProfilePicture(username)
         if (base64Image) {
@@ -82,13 +79,15 @@ const ProfileHead = ({
         </CardHeader>
         <CardContent>
           <CardDescription>
-            {bio}
+            {bio && bio}
             <br />
-            {location}
+            {location && location}
             <br />
-            <Link href={website} passHref={true}>
-              {website}
-            </Link>
+            {website && (
+              <Link href={website} passHref={true}>
+                {website}
+              </Link>
+            )}
           </CardDescription>
         </CardContent>
       </Card>

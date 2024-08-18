@@ -33,11 +33,11 @@ export const uploadImage = async (
         contentLength: file.size,
       }
 
-      // send objectName to mongodb users collection
-      await db.updateProfilePicture(username, putObjectRequest.objectName)
-
+      
       // Send request to the Client.
       const res = await client.putObject(putObjectRequest)
+      // send objectName to mongodb users collection
+      await db.updateProfilePicture(username, putObjectRequest.objectName)
       console.log(putObjectRequest)
     } catch (error) {
       console.log('put Failed with error  ' + error)
