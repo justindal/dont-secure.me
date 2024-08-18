@@ -10,6 +10,9 @@ import {
 
 import { Separator } from './ui/separator'
 
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import Link from 'next/link'
+
 interface PostProps {
   username: string
   displayName?: string
@@ -18,18 +21,13 @@ interface PostProps {
   date: string
 }
 
-const Post = ({
-  username,
-  title,
-  textContent,
-  date,
-}: PostProps) => {
+const Post = ({ username, title, textContent, date }: PostProps) => {
   return (
     <Card className='mb-3 ml-3 mr-3'>
       <div className='pt-2 pl-2 pb-1'>
         {username && (
           <div>
-            <span className="font-semibold">@{username}</span>
+            <Link className='font-semibold' href={`/user/${username}`}>@{username}</Link>
             {title && ': ' + title}
           </div>
         )}
