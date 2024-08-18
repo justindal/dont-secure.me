@@ -25,7 +25,7 @@ export default async function Page() {
             <Separator orientation='vertical'></Separator>
           </div>
           <div>
-            <Feed feedType='following'></Feed>
+            <Feed feedType='home'></Feed> // TODO update feedType
           </div>
           <div>
             <Separator orientation='vertical'></Separator>

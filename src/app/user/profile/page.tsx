@@ -34,7 +34,7 @@ const page = async () => {
               website='john.com'
               joinDate='2021-01-01'
             ></ProfileHead>
-            <Feed feedType='user' feedUsername={session.user.username}></Feed>
+            <Feed feedType='user' feedUsername={session.user.username}></Feed> // TODO feedType
           </div>
           <div>
             <Separator orientation='vertical'></Separator>
