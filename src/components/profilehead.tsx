@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { getProfilePicture } from '@/actions/getProfilePicture'
+import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
 
 import {
   Card,

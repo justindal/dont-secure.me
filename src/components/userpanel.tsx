@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-import { logout } from '@/actions/logout'
+import { logout } from '@/actions/login/logout'
 import { Session } from 'next-auth'
 
 interface PanelProps {

@@ -27,10 +27,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import UserExistsAlert from '@/components/userexists'
 import ProfilePictureInput from './profilepictureinput'
 
-import checkUser from '@/actions/checkUser'
-import createUser from '@/actions/createUser'
-import { uploadImage } from '@/actions/uploadImage'
-import { login } from '@/actions/login'
+import checkUser from '@/actions/user/checkUser'
+import createUser from '@/actions/user/createUser'
+import { uploadImage } from '@/actions/image/uploadImage'
+import { login } from '@/actions/login/login'
 
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -94,8 +94,7 @@ const RegisterDialog = ({
     if (file) {
       const imageURL = URL.createObjectURL(file)
       setProfilePicture({ file, url: imageURL })
-    }
-    else {
+    } else {
       setProfilePicture({ file: null, url: null })
     }
   }

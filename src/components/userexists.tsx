@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
-import { login } from '@/actions/login'
+import { login } from '@/actions/login/login'
 
 interface UserExistsAlertProps {
   isOpen: boolean

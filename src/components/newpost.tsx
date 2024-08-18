@@ -25,7 +25,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { SquarePlus } from 'lucide-react'
 
-import createPost from '@/actions/createPost'
+import createPost from '@/actions/posts/createPost'
 import { Session } from 'next-auth'
 
 interface Props {
@@ -50,7 +50,7 @@ const NewPost = ({ session }: Props) => {
     createPost({
       title: form.getValues('title'),
       description: form.getValues('description'),
-      user: session.user
+      user: session.user,
     })
 
     form.reset()

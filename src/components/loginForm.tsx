@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { login } from '@/actions/login'
+import { login } from '@/actions/login/login'
 import { LoginSchema } from '@/schemas'
 
 import RegisterDialog from './registerdialog'
