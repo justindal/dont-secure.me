@@ -7,11 +7,9 @@ export const getSuggestedUsers = async () => {
   const database = client.db('tester')
   const users = database.collection('users')
 
-  const suggestedUsers = await users
-    .find({})
-    .sort({ $natural: -1 })
-    .limit(3)
-    .toArray()
+  const suggestedUsers = await users.find({}).limit(100).toArray()
 
-  return suggestedUsers
+  const randomUsers = suggestedUsers.sort(() => 0.5 - Math.random()).slice(0, 5)
+  return randomUsers
+
 }
