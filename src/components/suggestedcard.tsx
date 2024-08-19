@@ -7,8 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { getSuggestedUsers } from '@/actions/user/getSuggestedUsers'
+import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
+
 import Link from 'next/link'
 
 const HomeSuggestedCard = async () => {
@@ -27,17 +30,38 @@ const HomeSuggestedCard = async () => {
         <CardDescription>users you might like!</CardDescription>
       </CardHeader>
       <CardContent>
-        {getUsers().then((users) => {
-          return (
-            <div>
-              {users.map((user: any) => {
-                return (
-                  <div key={user._id}>
-                    <Link href={`/user/${user.username}`}>{user.username}</Link>
+        {getUsers().then(async (users) => {
+          return Promise.all(
+            users.map(async (user: any) => {
+              const avatarUrl = await getProfilePicture(user.username).catch(
+                () => undefined,
+              )
+
+              return (
+                <div
+                  key={user.id}
+                  className='flex items-center justify-between p-4'
+                >
+                  <div className='pt-2 pl-2 pb-1'>
+                    {user.username && (
+                      <div>
+                        <Link
+                          className='font-semibold'
+                          href={`/user/${user.username}`}
+                        >
+                          @{user.username}
+                        </Link>
+                        {user.title && ': ' + user.title}
+                      </div>
+                    )}
                   </div>
-                )
-              })}
-            </div>
+                  <Avatar className='h-12 w-12 ml-4'>
+                    <AvatarImage src={avatarUrl || undefined} alt='Profile Picture' />
+                    <AvatarFallback>:)</AvatarFallback>
+                  </Avatar>
+                </div>
+              )
+            }),
           )
         })}
       </CardContent>
