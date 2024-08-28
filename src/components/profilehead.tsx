@@ -64,7 +64,7 @@ const ProfileHead = ({
 
   return (
     <div className='p-1 m-1'>
-      <Card>
+      <Card className='bg-gray-800'>
         <CardHeader className='m-1'>
           <div className='flex justify-between items-center'>
             <div>
