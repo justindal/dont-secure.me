@@ -121,6 +121,7 @@ const RegisterDialog = ({
               })
             }
 
+            // TODO additional user info prompt
             login({ username: data.username }).then((response) => {
               if (response == undefined || response.success) {
                 console.log('logged in')
