@@ -15,6 +15,8 @@ import { Separator } from './ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import Link from 'next/link'
 import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
+import { Button } from './ui/button'
+import { Heart, MessageCircle } from 'lucide-react'
 
 interface PostProps {
   username: string
@@ -59,11 +61,23 @@ const Post = ({ username, title, textContent, date }: PostProps) => {
       </div>
       <Separator className=''></Separator>
 
-      {textContent && <CardContent className='p-4'>{textContent}</CardContent>}
+      {textContent && <CardContent className='p-4 pb-2'>{textContent}</CardContent>}
 
-      <CardDescription className='p-4'>
-        {new Date(date).toLocaleDateString()}
-      </CardDescription>
+      <CardFooter className='px-4 py-2 flex justify-between items-center'>
+        <div className='flex space-x-2'>
+          <Button variant="ghost" size="default">
+            <Heart className="mr-2 h-5 w-5" />
+            Like
+          </Button>
+          <Button variant="ghost" size="default">
+            <MessageCircle className="mr-2 h-5 w-5" />
+            Comment
+          </Button>
+        </div>
+        <div className='text-sm text-gray-500'>
+          {new Date(date).toLocaleDateString()}
+        </div>
+      </CardFooter>
     </Card>
   )
 }
