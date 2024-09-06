@@ -58,7 +58,7 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
   }, [postId])
 
   const handleLikeClick = async () => {
-    const result = await toggleLike(postId)
+    const result = await toggleLike(postId, 'toggle')
     if (result.success) {
       setIsLiked(result.isLiked)
       setLikeCount(result.totalLikes)
