@@ -2,6 +2,7 @@ import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Post from './post'
 import { followingFeed, homeFeed, userFeed } from '@/actions/feed/getFeed'
+import { ObjectId } from 'mongodb'
 
 /**
  * @interface FeedProps
@@ -37,7 +38,8 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
             username={post.username}
             title={post.title}
             textContent={post.description}
-            date={post.date.toString()} // TODO fix time formatting
+            date={post.date.toString()}
+            postId={post._id}
           />
         ))}
       </>
@@ -59,7 +61,8 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
             username={post.username}
             title={post.title}
             textContent={post.description}
-            date={post.date.toString()} // TODO fix time formatting
+            date={post.date.toString()}
+            postId={post._id}
           />
         ))}
       </>
@@ -78,12 +81,14 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
               title='first post'
               date='today'
               textContent='hello this is a post'
+              postId={new ObjectId()}
             ></Post>
 
             <Post
               username='notjustin'
               date='yesterday'
               textContent='hello this is a super cool post'
+              postId={new ObjectId()}
             ></Post>
 
             <Post
@@ -91,6 +96,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
               title='my cool post post'
               date='a long time ago'
               textContent='oh wow! a post!'
+              postId={new ObjectId()}
             ></Post>
 
             <Post
@@ -98,6 +104,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
               title='amazing post'
               date='just now'
               textContent='ruff ruff!'
+              postId={new ObjectId()}
             ></Post>
 
             <Post
@@ -105,6 +112,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
               title='wow!'
               date='today'
               textContent='hello im david'
+              postId={new ObjectId()}
             ></Post>
 
             <Post
@@ -112,6 +120,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
               title='this is a post'
               date='moments ago'
               textContent='i posted this post'
+              postId={new ObjectId()}
             ></Post>
           </div>
         )
