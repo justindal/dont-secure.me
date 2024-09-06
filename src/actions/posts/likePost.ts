@@ -4,7 +4,7 @@ import db from '@/lib/db'
 import { ObjectId } from 'mongodb'
 import { auth } from '@/auth'
 
-const toggleLike = async (postId: ObjectId) => {
+const toggleLike = async (postId: ObjectId, action?: 'toggle' | 'status') => {
   const currentSession = await auth()
   const currentUser = currentSession?.user
   if (!currentUser || !currentUser.username) {
@@ -23,6 +23,14 @@ const toggleLike = async (postId: ObjectId) => {
 
   const post = await posts.findOne({ _id: new ObjectId(postId) })
   const totalLikes = post ? post.likeCount : 0
+
+  if (action === 'status' || action === undefined) {
+    return { 
+      success: true, 
+      isLiked: !!existingLike, 
+      totalLikes 
+    }
+  }
 
   if (existingLike) {
     // Unlike the post
@@ -47,4 +55,5 @@ const toggleLike = async (postId: ObjectId) => {
     return { success: true, message: 'Post liked successfully', action: 'liked', isLiked: true, totalLikes: totalLikes + 1 }
   }
 }
+
 export default toggleLike

@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useEffect, useState } from 'react'
 import {
   Card,
@@ -16,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import Link from 'next/link'
 import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
 import { Button } from './ui/button'
-import { Heart, MessageCircle } from 'lucide-react'
+import { Heart, MessageCircle, Loader2 } from 'lucide-react'
 import toggleLike from '@/actions/posts/likePost'
 import { ObjectId } from 'mongodb'
 
@@ -31,8 +30,8 @@ interface PostProps {
 
 const Post = ({ username, title, textContent, date, postId }: PostProps) => {
   const [imageURL, setImageURL] = useState<string | undefined>(undefined)
-  const [isLiked, setIsLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+  const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined)
+  const [likeCount, setLikeCount] = useState<number | undefined>(undefined)
 
   const fetchProfilePicture = async () => {
     try {
@@ -52,7 +51,7 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
   useEffect(() => {
     const fetchLikeStatus = async () => {
       const result = await toggleLike(postId)
-      setIsLiked(result.isLiked as boolean)
+      setIsLiked(result.isLiked)
       setLikeCount(result.totalLikes)
     }
     fetchLikeStatus()
@@ -91,9 +90,13 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
 
       <CardFooter className='px-4 py-2 flex justify-between items-center'>
         <div className='flex space-x-2'>
-          <Button variant="ghost" size="default" onClick={handleLikeClick}>
-            <Heart className={`mr-2 h-5 w-5 ${isLiked ? 'fill-current text-red-500' : ''}`} />
-            Like ({likeCount})
+          <Button variant="ghost" size="default" onClick={handleLikeClick} disabled={isLiked === undefined}>
+            {isLiked === undefined ? (
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            ) : (
+              <Heart className={`mr-2 h-5 w-5 ${isLiked ? 'fill-current text-red-500' : ''}`} />
+            )}
+            Like ({likeCount ?? '...'})
           </Button>
           <Button variant="ghost" size="default">
             <MessageCircle className="mr-2 h-5 w-5" />
