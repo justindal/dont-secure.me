@@ -1,7 +1,12 @@
 import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Post from './post'
-import { followingFeed, homeFeed, userFeed } from '@/actions/feed/getFeed'
+import {
+  followingFeed,
+  homeFeed,
+  userFeed,
+  savedFeed,
+} from '@/actions/feed/getFeed'
 import { ObjectId } from 'mongodb'
 
 /**
@@ -49,6 +54,29 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
   async function getUserFeed(feedUsername: string) {
     // TODO: Implement the logic to fetch and return JSX for the user feed
     const feed = await userFeed(feedUsername)
+    if ('error' in feed) {
+      return <div>Error: {feed.error}</div>
+    }
+
+    return (
+      <>
+        {feed.map((post) => (
+          <Post
+            key={post._id.toString()}
+            username={post.username}
+            title={post.title}
+            textContent={post.description}
+            date={post.date.toString()}
+            postId={post._id}
+          />
+        ))}
+      </>
+    )
+  }
+
+  async function getSavedFeed() {
+    // TODO: Implement the logic to fetch and return JSX for the saved feed
+    const feed = await savedFeed()
     if ('error' in feed) {
       return <div>Error: {feed.error}</div>
     }
@@ -139,6 +167,11 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
       {
         // feed for home
         feedType === 'home' && getHomeFeed()
+      }
+
+      {
+        // feed for saved
+        feedType === 'saved' && getSavedFeed()
       }
     </ScrollArea>
   )

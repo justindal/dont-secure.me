@@ -80,4 +80,31 @@ const userFeed = async (username: string, page = 1, limit = 20) => {
   return feed
 }
 
-export { followingFeed, homeFeed, userFeed }
+const savedFeed = async (page = 1, limit = 20) => {
+  const session = await auth()
+  if (!session) {
+    return {
+      error: 'Not authenticated',
+    }
+  }
+  const client = await db.clientPromise
+  const database = client.db(process.env.DB_NAME)
+  const saved = database.collection('saved')
+  const posts = database.collection('posts')
+
+  const savedPosts = await saved
+    .find({ user: session.user._id })
+    .sort({ date: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .toArray()
+
+  const savedPostIds = savedPosts.map(savedPost => savedPost.post)
+
+  const feed = await posts
+    .find({ _id: { $in: savedPostIds } })
+    .toArray()
+
+  return feed
+}
+export { followingFeed, homeFeed, userFeed, savedFeed }

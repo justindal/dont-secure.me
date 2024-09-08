@@ -37,7 +37,11 @@ const Panel = ({ session }: PanelProps) => {
         </CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline cursor-pointer'>Saved</CardTitle>
+        <Link href={'/saved'}>
+          <CardTitle className='hover:underline cursor-pointer'>
+            Saved
+          </CardTitle>
+        </Link>
       </CardHeader>
       <CardHeader>
         <CardTitle className='hover:underline cursor-pointer'>
