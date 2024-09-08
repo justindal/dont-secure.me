@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from './ui/button'
-import { Input } from '@/components/ui/input'
+import SearchBar from './searchbar'
 import { LockOpen } from 'lucide-react'
 
 const HomeNav = () => {
@@ -39,10 +38,7 @@ const HomeNav = () => {
             </nav>
           </div>
           <div className='flex items-center gap-4'>
-            <div className='flex w-full max-w-sm items-center space-x-2'>
-              <Input type='search' placeholder='users, posts, tags...' />
-              <Button type='submit'>search</Button>
-            </div>
+            <SearchBar></SearchBar>
           </div>
         </div>
       </div>
