@@ -109,6 +109,12 @@ const savedFeed = async (page = 1, limit = 20) => {
     .find({ _id: { $in: savedPostIds } })
     .toArray()
 
-  return feed
+  // Sort the feed based on the order of savedPosts
+  const sortedFeed = savedPosts.map(savedPost => 
+    feed.find(post => post._id.toString() === savedPost.post.toString())
+  ).filter(Boolean)
+
+  return sortedFeed
 }
+
 export { followingFeed, homeFeed, userFeed, savedFeed }
