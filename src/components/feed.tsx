@@ -81,7 +81,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
     }
 
     if (feed.length === 0) {
-      return <div className="text-center p-4">You haven't saved any posts yet.</div>
+      return <div className="text-center p-4">You haven&apos;t saved any posts yet.</div>
     }
 
     return (
