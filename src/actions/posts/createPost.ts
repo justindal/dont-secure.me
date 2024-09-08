@@ -19,6 +19,7 @@ const createPost = async ({ title, description, user }: Post) => {
     user: user._id,
     username: user.username,
     date: new Date(),
+    likeCount: 0
   })
   return post
 }

@@ -22,7 +22,7 @@ const toggleLike = async (postId: ObjectId, action?: 'toggle' | 'status') => {
   })
 
   const post = await posts.findOne({ _id: new ObjectId(postId) })
-  const totalLikes = post ? post.likeCount : 0
+  const totalLikes = post ? (post.likeCount || 0) : 0
 
   if (action === 'status' || action === undefined) {
     return { 
@@ -55,5 +55,7 @@ const toggleLike = async (postId: ObjectId, action?: 'toggle' | 'status') => {
     return { success: true, message: 'Post liked successfully', action: 'liked', isLiked: true, totalLikes: totalLikes + 1 }
   }
 }
+
+// TODO when post is first made, like is nAn
 
 export default toggleLike
