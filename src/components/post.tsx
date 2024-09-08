@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   Card,
   CardContent,
@@ -25,7 +25,7 @@ interface PostProps {
   title?: string
   textContent?: string
   date: string
-  postId: ObjectId
+  postId: ObjectId // TODO change to string, also in feed
 }
 
 const Post = ({ username, title, textContent, date, postId }: PostProps) => {
@@ -46,24 +46,28 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
 
   useEffect(() => {
     fetchProfilePicture()
-  }, [])
+  }, [username])
 
   useEffect(() => {
     const fetchLikeStatus = async () => {
-      const result = await toggleLike(postId)
-      setIsLiked(result.isLiked)
-      setLikeCount(result.totalLikes)
+      try {
+        const result = await toggleLike(postId)
+        setIsLiked(result.isLiked)
+        setLikeCount(result.totalLikes)
+      } catch (error) {
+        console.error('Error fetching like status:', error)
+      }
     }
     fetchLikeStatus()
   }, [postId])
 
-  const handleLikeClick = async () => {
+  const handleLikeClick = useCallback(async () => {
     const result = await toggleLike(postId, 'toggle')
     if (result.success) {
       setIsLiked(result.isLiked)
       setLikeCount(result.totalLikes)
     }
-  }
+  }, [postId])
   return (
     <Card className='mb-3 ml-3 mr-3'>
       <div className='flex items-center justify-between p-4'>
