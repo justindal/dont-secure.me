@@ -75,10 +75,13 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
   }
 
   async function getSavedFeed() {
-    // TODO: Implement the logic to fetch and return JSX for the saved feed
     const feed = await savedFeed()
     if ('error' in feed) {
       return <div>Error: {feed.error}</div>
+    }
+
+    if (feed.length === 0) {
+      return <div className="text-center p-4">You haven't saved any posts yet.</div>
     }
 
     return (
@@ -96,7 +99,6 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
       </>
     )
   }
-
   return (
     <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
       {

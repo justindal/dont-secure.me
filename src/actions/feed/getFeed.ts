@@ -99,6 +99,10 @@ const savedFeed = async (page = 1, limit = 20) => {
     .limit(limit)
     .toArray()
 
+  if (savedPosts.length === 0) {
+    return [] // Return an empty array if there are no saved posts
+  }
+
   const savedPostIds = savedPosts.map(savedPost => savedPost.post)
 
   const feed = await posts
