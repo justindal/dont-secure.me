@@ -86,15 +86,18 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
 
     return (
       <>
-        {feed.map((post) => (
-          <Post
-            key={post._id.toString()}
-            username={post.username}
-            title={post.title}
-            textContent={post.description}
-            date={post.date.toString()}
-            postId={post._id}
-          />
+
+        {feed?.map((post) => (
+          post && (
+            <Post
+              key={post._id.toString()}
+              username={post.username}
+              title={post.title}
+              textContent={post.description}
+              date={post.date.toString()}
+              postId={post._id}
+            />
+          )
         ))}
       </>
     )
