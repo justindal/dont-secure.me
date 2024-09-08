@@ -85,7 +85,10 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
   }, [postId])
 
   const handleSaveClick = useCallback(async () => {
-    const result = await toggleSave(postId.toString(), isSaved ? 'unsave' : 'save')
+    const result = await toggleSave(
+      postId.toString(),
+      isSaved ? 'unsave' : 'save',
+    )
     if (result && result.success) {
       setIsSaved(result.isSaved)
     }
@@ -106,7 +109,7 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
         </div>
         <Avatar className='h-12 w-12 ml-4'>
           <AvatarImage src={imageURL} alt='Profile Picture' />
-          <AvatarFallback>:)</AvatarFallback>
+          <AvatarFallback>{username.slice(0, 3).toUpperCase()}</AvatarFallback>
         </Avatar>
       </div>
       <Separator className=''></Separator>
@@ -136,7 +139,12 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
             <MessageCircle className='mr-2 h-5 w-5' />
             Comment
           </Button>
-          <Button variant='ghost' size='default' onClick={handleSaveClick} disabled={isSaved === undefined}>
+          <Button
+            variant='ghost'
+            size='default'
+            onClick={handleSaveClick}
+            disabled={isSaved === undefined}
+          >
             {isSaved === undefined ? (
               <Loader2 className='mr-2 h-5 w-5 animate-spin' />
             ) : (
@@ -154,5 +162,4 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
     </Card>
   )
 }
-
 export default Post
