@@ -65,18 +65,27 @@ const userFeed = async (username: string, page = 1, limit = 20) => {
   const client = await db.clientPromise
   const database = client.db(process.env.DB_NAME)
   const posts = database.collection('posts')
-  const user = await database.collection('users').findOne({ username })
-  if (!user) {
-    return {
-      error: 'User not found',
-    }
-  }
+  const users = database.collection('users')
+
+  const searchPattern = username.split('').join('.*')
+  const regexPattern = new RegExp(searchPattern, 'i')
+
+  const similarUsers = await users
+    .find({ username: { $regex: regexPattern } })
+    .toArray()
+
+  const userIds = similarUsers.map((user) => user._id.toString())
+
   const feed = await posts
-    .find({ user: user._id.toString() })
+    .find({ user: { $in: userIds } })
     .sort({ date: -1 })
     .skip((page - 1) * limit)
     .limit(limit)
     .toArray()
+
+  if (feed.length === 0) {
+    return []
+  }
   return feed
 }
 
@@ -99,9 +108,7 @@ const savedFeed = async (page = 1, limit = 20) => {
     .limit(limit)
     .toArray()
 
-  if (savedPosts.length === 0) {
-    return [] // Return an empty array if there are no saved posts
-  }
+  if (savedPosts.length === 0) return []
 
   const savedPostIds = savedPosts.map((savedPost) => savedPost.post)
 
@@ -137,9 +144,8 @@ const searchUsersFeed = async (query: string, page = 1, limit = 20) => {
     .limit(limit)
     .toArray()
 
-  if (feed.length === 0) {
-    return [] // Return an empty array if there are no saved posts
-  }
+  if (feed.length === 0) return []
+
   return feed
 }
 export { followingFeed, homeFeed, userFeed, savedFeed, searchUsersFeed }
