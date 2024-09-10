@@ -51,12 +51,9 @@ export default async function SearchPage({
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value='users'>
-                <div className='mt-8'>
+                  <div className='mt-8'>
                     {searchResults ? (
-                      <Feed
-                        feedType='search'
-                        searchTerm={searchTerm}
-                      />
+                      <Feed feedType='searchUser' searchTerm={searchTerm} />
                     ) : (
                       <p>No results found for "{searchTerm}"</p>
                     )}
@@ -65,10 +62,7 @@ export default async function SearchPage({
                 <TabsContent value='posts'>
                   <div className='mt-8'>
                     {searchResults ? (
-                      <Feed
-                        feedType='user'
-                        feedUsername={searchResults.username}
-                      />
+                      <Feed feedType='searchPosts' searchTerm={searchTerm} />
                     ) : (
                       <p>No results found for "{searchTerm}"</p>
                     )}

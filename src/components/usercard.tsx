@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
 import {
   Card,
@@ -47,7 +48,9 @@ const UserCard = ({ username, displayName, bio }: UserCardProps) => {
         <CardHeader className='m-1'>
           <div className='flex justify-between items-center'>
             <div>
-              {displayName && <CardTitle>{displayName}</CardTitle>}@{username}
+              <Link className='font-semibold' href={`/user/${username}`}>
+                @{username}
+              </Link>
             </div>
             <Avatar className='h-16 w-16'>
               <AvatarImage src={imageURL} alt='Profile Picture' />

@@ -7,7 +7,8 @@ import {
   homeFeed,
   userFeed,
   savedFeed,
-  searchUsersFeed
+  searchUsersFeed,
+  searchPostFeed,
 } from '@/actions/feed/getFeed'
 import { ObjectId } from 'mongodb'
 
@@ -84,24 +85,28 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
     }
 
     if (feed.length === 0) {
-      return <div className="text-center p-4">You haven&apos;t saved any posts yet.</div>
+      return (
+        <div className='text-center p-4'>
+          You haven&apos;t saved any posts yet.
+        </div>
+      )
     }
 
     return (
       <>
-
-        {feed?.map((post) => (
-          post && (
-            <Post
-              key={post._id.toString()}
-              username={post.username}
-              title={post.title}
-              textContent={post.description}
-              date={post.date.toString()}
-              postId={post._id}
-            />
-          )
-        ))}
+        {feed?.map(
+          (post) =>
+            post && (
+              <Post
+                key={post._id.toString()}
+                username={post.username}
+                title={post.title}
+                textContent={post.description}
+                date={post.date.toString()}
+                postId={post._id}
+              />
+            ),
+        )}
       </>
     )
   }
@@ -112,9 +117,9 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
       return <div>Error: {feed.error}</div>
     }
     if (feed.length === 0) {
-      return <div className="text-center p-4">No users found.</div>
+      return <div className='text-center p-4'>No users found.</div>
     }
-    
+
     return (
       <>
         {feed.map((user) => (
@@ -123,6 +128,30 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
             username={user.username}
             displayName={user.displayName}
             bio={user.bio}
+          />
+        ))}
+      </>
+    )
+  }
+
+  async function getSearchPostFeed(searchTerm: string) {
+    const feed = await searchPostFeed(searchTerm)
+    if ('error' in feed) {
+      return <div>Error: {feed.error}</div>
+    }
+    if (feed.length === 0) {
+      return <div className='text-center p-4'>No posts found.</div>
+    }
+    return (
+      <>
+        {feed.map((post) => (
+          <Post
+            key={post._id.toString()}
+            username={post.username}
+            title={post.title}
+            textContent={post.description}
+            date={post.date.toString()}
+            postId={post._id}
           />
         ))}
       </>
@@ -208,7 +237,16 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
 
       {
         // feed for search
-        searchTerm && feedType === 'search' && getSearchUsersFeed(searchTerm)
+        searchTerm &&
+          feedType === 'searchUser' &&
+          getSearchUsersFeed(searchTerm)
+      }
+
+      {
+        // feed for search
+        searchTerm &&
+          feedType === 'searchPosts' &&
+          getSearchPostFeed(searchTerm)
       }
     </ScrollArea>
   )
