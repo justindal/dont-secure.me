@@ -103,18 +103,43 @@ const savedFeed = async (page = 1, limit = 20) => {
     return [] // Return an empty array if there are no saved posts
   }
 
-  const savedPostIds = savedPosts.map(savedPost => savedPost.post)
+  const savedPostIds = savedPosts.map((savedPost) => savedPost.post)
 
-  const feed = await posts
-    .find({ _id: { $in: savedPostIds } })
-    .toArray()
+  const feed = await posts.find({ _id: { $in: savedPostIds } }).toArray()
 
   // Sort the feed based on the order of savedPosts
-  const sortedFeed = savedPosts.map(savedPost => 
-    feed.find(post => post._id.toString() === savedPost.post.toString())
-  ).filter(Boolean)
+  const sortedFeed = savedPosts
+    .map((savedPost) =>
+      feed.find((post) => post._id.toString() === savedPost.post.toString()),
+    )
+    .filter(Boolean)
 
   return sortedFeed
 }
 
-export { followingFeed, homeFeed, userFeed, savedFeed }
+const searchUsersFeed = async (query: string, page = 1, limit = 20) => {
+  const session = await auth()
+  if (!session) {
+    return {
+      error: 'Not authenticated',
+    }
+  }
+  const client = await db.clientPromise
+  const database = client.db(process.env.DB_NAME)
+  const users = database.collection('users')
+
+  const searchPattern = query.split('').join('.*')
+  const regexPattern = new RegExp(searchPattern, 'i')
+
+  const feed = await users
+    .find({ username: { $regex: regexPattern } })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .toArray()
+
+  if (feed.length === 0) {
+    return [] // Return an empty array if there are no saved posts
+  }
+  return feed
+}
+export { followingFeed, homeFeed, userFeed, savedFeed, searchUsersFeed }

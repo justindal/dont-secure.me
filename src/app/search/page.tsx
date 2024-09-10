@@ -27,12 +27,16 @@ export default async function SearchPage({
   return (
     <div>
       <HomeNav></HomeNav>
-      <main className='flex justify-center'>
-        <div className='max-w-6xl w-full flex justify-between'>
+      <main>
+        <div className='flex justify-center space-x-12 pt-1'>
           <div className='w-[350px]'>
             <HomeSuggestedCard></HomeSuggestedCard>
           </div>
-          <div className='flex-grow max-w-2xl mx-4'>
+          <div>
+            <Separator orientation='vertical'></Separator>
+          </div>
+          <div>
+            {/* Search content goes here */}
             <div className='container mx-auto py-8 flex flex-col items-center'>
               <h1 className='text-2xl font-bold mb-4 text-center'>
                 Search Results
@@ -47,7 +51,16 @@ export default async function SearchPage({
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value='users'>
-                  <div className='mt-8'>lalalal</div>
+                <div className='mt-8'>
+                    {searchResults ? (
+                      <Feed
+                        feedType='search'
+                        searchTerm={searchTerm}
+                      />
+                    ) : (
+                      <p>No results found for "{searchTerm}"</p>
+                    )}
+                  </div>
                 </TabsContent>
                 <TabsContent value='posts'>
                   <div className='mt-8'>
@@ -64,12 +77,15 @@ export default async function SearchPage({
               </Tabs>
             </div>
           </div>
+          <div>
+            <Separator orientation='vertical'></Separator>
+          </div>
           <div className='w-[350px]'>
             <Panel session={session}></Panel>
           </div>
         </div>
+        <NewPost session={session}></NewPost>
       </main>
-      <NewPost session={session}></NewPost>
     </div>
   )
 }

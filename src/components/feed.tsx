@@ -1,11 +1,13 @@
 import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import Post from './post'
+import Post from '@/components/post'
+import UserCard from '@/components/usercard'
 import {
   followingFeed,
   homeFeed,
   userFeed,
   savedFeed,
+  searchUsersFeed
 } from '@/actions/feed/getFeed'
 import { ObjectId } from 'mongodb'
 
@@ -17,9 +19,10 @@ import { ObjectId } from 'mongodb'
 interface FeedProps {
   feedType: string
   feedUsername?: string
+  searchTerm?: string
 }
 
-const Feed = async ({ feedType, feedUsername }: FeedProps) => {
+const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
   async function getFollowingFeed() {
     // TODO: Implement the logic to fetch and return JSX for the following feed
     const feed = await followingFeed()
@@ -102,6 +105,30 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
       </>
     )
   }
+
+  async function getSearchUsersFeed(searchTerm: string) {
+    const feed = await searchUsersFeed(searchTerm)
+    if ('error' in feed) {
+      return <div>Error: {feed.error}</div>
+    }
+    if (feed.length === 0) {
+      return <div className="text-center p-4">No users found.</div>
+    }
+    
+    return (
+      <>
+        {feed.map((user) => (
+          <UserCard
+            key={user._id.toString()}
+            username={user.username}
+            displayName={user.displayName}
+            bio={user.bio}
+          />
+        ))}
+      </>
+    )
+  }
+
   return (
     <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
       {
@@ -125,7 +152,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
             ></Post>
 
             <Post
-              username='also justin'
+              username='also_justin'
               title='my cool post post'
               date='a long time ago'
               textContent='oh wow! a post!'
@@ -133,7 +160,7 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
             ></Post>
 
             <Post
-              username='justins dog'
+              username='justins_dog'
               title='amazing post'
               date='just now'
               textContent='ruff ruff!'
@@ -177,6 +204,11 @@ const Feed = async ({ feedType, feedUsername }: FeedProps) => {
       {
         // feed for saved
         feedType === 'saved' && getSavedFeed()
+      }
+
+      {
+        // feed for search
+        searchTerm && feedType === 'search' && getSearchUsersFeed(searchTerm)
       }
     </ScrollArea>
   )
