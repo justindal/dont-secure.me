@@ -67,14 +67,13 @@ const userFeed = async (username: string, page = 1, limit = 20) => {
   const posts = database.collection('posts')
   const users = database.collection('users')
 
-  const searchPattern = username.split('').join('.*')
-  const regexPattern = new RegExp(searchPattern, 'i')
+  const regexPattern = new RegExp(username, 'i')
 
   const similarUsers = await users
     .find({ username: { $regex: regexPattern } })
     .toArray()
 
-  const userIds = similarUsers.map((user) => user._id.toString())
+  const userIds = similarUsers.map(user => user._id.toString())
 
   const feed = await posts
     .find({ user: { $in: userIds } })
@@ -83,9 +82,6 @@ const userFeed = async (username: string, page = 1, limit = 20) => {
     .limit(limit)
     .toArray()
 
-  if (feed.length === 0) {
-    return []
-  }
   return feed
 }
 
