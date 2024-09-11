@@ -55,7 +55,7 @@ export default async function SearchPage({
                     {searchResults ? (
                       <Feed feedType='searchUser' searchTerm={searchTerm} />
                     ) : (
-                      <p>No results found for "{searchTerm}"</p>
+                      <p>No results found for &quot;{searchTerm}&quot;</p>
                     )}
                   </div>
                 </TabsContent>
@@ -64,7 +64,7 @@ export default async function SearchPage({
                     {searchResults ? (
                       <Feed feedType='searchPosts' searchTerm={searchTerm} />
                     ) : (
-                      <p>No results found for "{searchTerm}"</p>
+                      <p>No results found for &quot;{searchTerm}&quot;</p>
                     )}
                   </div>
                 </TabsContent>
