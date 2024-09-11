@@ -10,6 +10,10 @@ const toggleFollow = async (username: string, action?: 'toggle' | 'status') => {
     return { error: 'User not authenticated' }
   }
 
+  if (currentUser.username === username) {
+    return { error: 'Cannot follow yourself' }
+  }
+
   const client = await db.clientPromise
   const database = client.db(process.env.DB_NAME)
   const follows = database.collection('followers')

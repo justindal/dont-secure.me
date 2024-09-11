@@ -12,6 +12,8 @@ import {
 } from '@/actions/feed/getFeed'
 import { ObjectId } from 'mongodb'
 
+import { auth } from '@/auth'
+
 /**
  * @interface FeedProps
  * @param {string} feedType - the type of feed to display, either 'following', 'home', or 'profile'
@@ -24,6 +26,8 @@ interface FeedProps {
 }
 
 const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
+  const session = await auth()
+
   async function getFollowingFeed() {
     // TODO: Implement the logic to fetch and return JSX for the following feed
     const feed = await followingFeed()
@@ -119,15 +123,19 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
     if (feed.length === 0) {
       return <div className='text-center p-4'>No users found.</div>
     }
-
+    if (!session) {
+      return (
+        <div className='text-center p-4'>Please sign in to view users.</div>
+      )
+    }
     return (
       <>
         {feed.map((user) => (
           <UserCard
             key={user._id.toString()}
             username={user.username}
-            displayName={user.displayName}
             bio={user.bio}
+            session={session}
           />
         ))}
       </>

@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
@@ -13,6 +12,7 @@ import {
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { Session } from 'next-auth'
 
 import toggleFollow from '@/actions/user/followUser'
 
@@ -20,9 +20,11 @@ interface UserCardProps {
   username: string
   displayName?: string
   bio?: string
+  session: Session
 }
 
-const UserCard = ({ username, displayName, bio }: UserCardProps) => {
+const UserCard = ({ username, bio, session }: UserCardProps) => {
+  const isCurrentUser = session?.user?.username === username
   const [imageURL, setImageURL] = useState<string | undefined>(undefined)
   const [isFollowing, setIsFollowing] = useState(false)
   const [followerCount, setFollowerCount] = useState(0)
@@ -88,8 +90,12 @@ const UserCard = ({ username, displayName, bio }: UserCardProps) => {
                 <AvatarImage src={imageURL} alt='Profile Picture' />
                 <AvatarFallback>:)</AvatarFallback>
               </Avatar>
-              <Button onClick={handleFollowToggle} className='mt-2'>
-                {isFollowing ? 'Unfollow' : 'Follow'}
+              <Button 
+                onClick={handleFollowToggle} 
+                className='mt-2'
+                disabled={isCurrentUser}
+              >
+                {isCurrentUser ? 'You' : isFollowing ? 'Unfollow' : 'Follow'}
               </Button>
             </div>
           </div>
