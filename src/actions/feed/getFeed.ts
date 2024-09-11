@@ -14,27 +14,26 @@ const followingFeed = async (page = 1, limit = 20) => {
   const client = await db.clientPromise
   const database = client.db(process.env.DB_NAME)
   const posts = database.collection('posts')
+  const followers = database.collection('followers')
 
   const getFollowingList = async () => {
-    const following = await database
-      .collection('followers')
+    const following = await followers
       .find({
-        user: session.user._id,
+        followerUsername: session.user.username,
       })
       .toArray()
-    return following.map((f) => f.following) || []
+    return following.map((f) => f.followedUsername) || []
   }
 
   const followingList = await getFollowingList()
   const feed = await posts
-    .find({ user: { $in: followingList } })
+    .find({ username: { $in: followingList } })
     .sort({ date: -1 })
     .skip((page - 1) * limit)
     .limit(limit)
     .toArray()
   return feed
 }
-
 const homeFeed = async (page = 1, limit = 20) => {
   const session = await auth()
   if (!session) {

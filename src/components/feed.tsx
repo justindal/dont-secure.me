@@ -31,12 +31,28 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
   const session = await auth()
 
   async function getFollowingFeed() {
-    // TODO: Implement the logic to fetch and return JSX for the following feed
     const feed = await followingFeed()
 
-    return <div>Following feed placeholder</div>
-  }
+    if ('error' in feed) {
+      return <div>Error: {feed.error}</div>
+    }
 
+    return (
+      <>
+        {feed.map((post) => (
+          <Post
+            key={post._id.toString()}
+            username={post.username}
+            title={post.title}
+            textContent={post.description}
+            date={post.date.toString()}
+            postId={post._id}
+            session={session || undefined}
+          />
+        ))}
+      </>
+    )
+  }
   async function getHomeFeed() {
     // TODO: Implement the logic to fetch and return JSX for the home feed
     const feed = await homeFeed()
@@ -232,12 +248,9 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
           // feed for specific user
           feedUsername && feedType === 'user' && getUserFeed(feedUsername)
         }
-
         {
-          // feed for following
           feedType === 'following' && getFollowingFeed()
         }
-
         {
           // feed for home
           feedType === 'home' && getHomeFeed()
