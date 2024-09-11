@@ -32,11 +32,6 @@ const Panel = ({ session }: PanelProps) => {
         </CardTitle>
       </CardHeader>
       <CardHeader>
-        <CardTitle className='hover:underline cursor-pointer'>
-          Notifications
-        </CardTitle>
-      </CardHeader>
-      <CardHeader>
         <Link href={'/saved'}>
           <CardTitle className='hover:underline cursor-pointer'>
             Saved
