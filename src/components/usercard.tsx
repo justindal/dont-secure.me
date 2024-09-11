@@ -102,8 +102,9 @@ const UserCard = ({ username, bio, session }: UserCardProps) => {
               </Avatar>
               <Button 
                 onClick={handleFollowToggle} 
-                className='mt-2'
+                className='mt-2 text-xs px-2 py-1 h-6'
                 disabled={isCurrentUser}
+                variant="outline"
               >
                 {isCurrentUser ? 'You' : isFollowing ? 'Unfollow' : 'Follow'}
               </Button>
