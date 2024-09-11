@@ -29,12 +29,12 @@ const HomeNav = () => {
                 Feed
               </Link>
 
-              <Link
+              {/* <Link
                 className='font-medium flex items-center text-sm transition-colors hover:underline'
                 href='/messages'
               >
                 Messages
-              </Link>
+              </Link> */}
             </nav>
           </div>
           <div className='flex items-center gap-4'>
