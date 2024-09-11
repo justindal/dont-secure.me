@@ -56,8 +56,13 @@ const HomeSuggestedCard = async () => {
                     )}
                   </div>
                   <Avatar className='h-12 w-12 ml-4'>
-                    <AvatarImage src={avatarUrl || undefined} alt='Profile Picture' />
-                    <AvatarFallback>:)</AvatarFallback>
+                    <AvatarImage
+                      src={avatarUrl || undefined}
+                      alt='Profile Picture'
+                    />
+                    <AvatarFallback>
+                      {user.username.slice(0, 3).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </div>
               )

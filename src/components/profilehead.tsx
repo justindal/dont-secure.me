@@ -113,7 +113,9 @@ const ProfileHead = ({
             <div className='flex flex-col items-center'>
               <Avatar className='h-16 w-16 mb-2'>
                 <AvatarImage src={imageURL} alt='Profile Picture' />
-                <AvatarFallback>:)</AvatarFallback>
+                <AvatarFallback>
+              {username.slice(0, 3).toUpperCase()}
+            </AvatarFallback>
               </Avatar>
               {session?.user?.username &&
                 session.user.username !== username && (
