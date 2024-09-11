@@ -12,6 +12,8 @@ import {
 } from '@/actions/feed/getFeed'
 import { ObjectId } from 'mongodb'
 
+import { FollowProvider } from '@/contexts/FollowContext'
+
 import { auth } from '@/auth'
 
 /**
@@ -169,96 +171,98 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
   }
 
   return (
-    <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
-      {
-        // TODO testing, remove
-        feedType === 'test' && (
-          <div>
-            <Post
-              username='justin'
-              displayName='justin dal'
-              title='first post'
-              date='today'
-              textContent='hello this is a post'
-              postId={new ObjectId()}
-            ></Post>
+    <FollowProvider>
+      <ScrollArea className='h-[90vh] w-[500px] rounded-md'>
+        {
+          // TODO testing, remove
+          feedType === 'test' && (
+            <div>
+              <Post
+                username='justin'
+                displayName='justin dal'
+                title='first post'
+                date='today'
+                textContent='hello this is a post'
+                postId={new ObjectId()}
+              ></Post>
 
-            <Post
-              username='notjustin'
-              date='yesterday'
-              textContent='hello this is a super cool post'
-              postId={new ObjectId()}
-            ></Post>
+              <Post
+                username='notjustin'
+                date='yesterday'
+                textContent='hello this is a super cool post'
+                postId={new ObjectId()}
+              ></Post>
 
-            <Post
-              username='also_justin'
-              title='my cool post post'
-              date='a long time ago'
-              textContent='oh wow! a post!'
-              postId={new ObjectId()}
-            ></Post>
+              <Post
+                username='also_justin'
+                title='my cool post post'
+                date='a long time ago'
+                textContent='oh wow! a post!'
+                postId={new ObjectId()}
+              ></Post>
 
-            <Post
-              username='justins_dog'
-              title='amazing post'
-              date='just now'
-              textContent='ruff ruff!'
-              postId={new ObjectId()}
-            ></Post>
+              <Post
+                username='justins_dog'
+                title='amazing post'
+                date='just now'
+                textContent='ruff ruff!'
+                postId={new ObjectId()}
+              ></Post>
 
-            <Post
-              username='davidcao'
-              title='wow!'
-              date='today'
-              textContent='hello im david'
-              postId={new ObjectId()}
-            ></Post>
+              <Post
+                username='davidcao'
+                title='wow!'
+                date='today'
+                textContent='hello im david'
+                postId={new ObjectId()}
+              ></Post>
 
-            <Post
-              username='justind'
-              title='this is a post'
-              date='moments ago'
-              textContent='i posted this post'
-              postId={new ObjectId()}
-            ></Post>
-          </div>
-        )
-      }
+              <Post
+                username='justind'
+                title='this is a post'
+                date='moments ago'
+                textContent='i posted this post'
+                postId={new ObjectId()}
+              ></Post>
+            </div>
+          )
+        }
 
-      {
-        // feed for specific user
-        feedUsername && feedType === 'user' && getUserFeed(feedUsername)
-      }
+        {
+          // feed for specific user
+          feedUsername && feedType === 'user' && getUserFeed(feedUsername)
+        }
 
-      {
-        // feed for following
-        feedType === 'following' && getFollowingFeed()
-      }
+        {
+          // feed for following
+          feedType === 'following' && getFollowingFeed()
+        }
 
-      {
-        // feed for home
-        feedType === 'home' && getHomeFeed()
-      }
+        {
+          // feed for home
+          feedType === 'home' && getHomeFeed()
+        }
 
-      {
-        // feed for saved
-        feedType === 'saved' && getSavedFeed()
-      }
+        {
+          // feed for saved
+          feedType === 'saved' && getSavedFeed()
+        }
 
-      {
-        // feed for search
-        searchTerm &&
-          feedType === 'searchUser' &&
-          getSearchUsersFeed(searchTerm)
-      }
+        {
+          // feed for search
+          searchTerm &&
+            feedType === 'searchUser' &&
+            getSearchUsersFeed(searchTerm)
+        }
 
-      {
-        // feed for search
-        searchTerm &&
-          feedType === 'searchPosts' &&
-          getSearchPostFeed(searchTerm)
-      }
-    </ScrollArea>
+        {
+          // feed for search
+          searchTerm &&
+            feedType === 'searchPosts' &&
+            getSearchPostFeed(searchTerm)
+        }
+      </ScrollArea>
+    </FollowProvider>
   )
 }
 

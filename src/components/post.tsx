@@ -21,6 +21,7 @@ import { toggleSave } from '@/actions/posts/savePost'
 import toggleFollow from '@/actions/user/followUser'
 import { ObjectId } from 'mongodb'
 import { Session } from 'next-auth'
+import { useFollowStatus } from '@/contexts/FollowContext'
 
 interface PostProps {
   username: string
@@ -44,7 +45,8 @@ const Post = ({
   const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined)
   const [likeCount, setLikeCount] = useState<number | undefined>(undefined)
   const [isSaved, setIsSaved] = useState<boolean | undefined>(undefined)
-  const [isFollowing, setIsFollowing] = useState<boolean | undefined>(undefined)
+  const { followStatus, setFollowStatus } = useFollowStatus()
+  const isFollowing = followStatus[username]
   const [followerCount, setFollowerCount] = useState<number | undefined>(
     undefined,
   )
@@ -96,17 +98,17 @@ const Post = ({
     const fetchFollowStatus = async () => {
       const result = await toggleFollow(username, 'status')
       if (result.success) {
-        setIsFollowing(result.isFollowing)
+        setFollowStatus((prev) => ({ ...prev, [username]: result.isFollowing }))
         setFollowerCount(result.totalFollowers)
       }
     }
     fetchFollowStatus()
-  }, [username])
+  }, [username, setFollowStatus])
 
   const handleFollowToggle = async () => {
     const result = await toggleFollow(username, 'toggle')
     if (result.success) {
-      setIsFollowing(result.isFollowing)
+      setFollowStatus((prev) => ({ ...prev, [username]: result.isFollowing }))
       setFollowerCount(result.totalFollowers)
     }
   }
@@ -206,4 +208,5 @@ const Post = ({
     </Card>
   )
 }
+
 export default Post
