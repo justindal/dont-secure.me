@@ -24,10 +24,15 @@ interface UserCardProps {
 }
 
 const UserCard = ({ username, bio, session }: UserCardProps) => {
+  const [mounted, setMounted] = useState(false)
   const isCurrentUser = session?.user?.username === username
   const [imageURL, setImageURL] = useState<string | undefined>(undefined)
   const [isFollowing, setIsFollowing] = useState(false)
   const [followerCount, setFollowerCount] = useState(0)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleFollowToggle = async () => {
     const result = await toggleFollow(username, 'toggle')
@@ -71,6 +76,11 @@ const UserCard = ({ username, bio, session }: UserCardProps) => {
       }
     }
   }, [username])
+
+  if (!mounted) {
+    return null; // or a loading placeholder
+  }
+
   return (
     <div className='p-1 m-1'>
       <Card className='bg-gray-800'>
