@@ -18,7 +18,7 @@ const HomeNav = () => {
             <nav className='hidden md:flex gap-4 absolute left-1/2 transform -translate-x-1/2'>
               <Link
                 className='font-medium flex items-center text-sm transition-colors hover:underline'
-                href='/home/following'
+                href='/following'
               >
                 Following
               </Link>
