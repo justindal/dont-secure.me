@@ -37,6 +37,7 @@ const Page = async ({ params }: { params: { user: string } }) => {
               location='toronto'
               website='john.com'
               joinDate={new Date(user.date).toLocaleDateString()}
+              session={session}
             ></ProfileHead>
             <Feed feedType='user' feedUsername={user.username}></Feed>{' '}
             {

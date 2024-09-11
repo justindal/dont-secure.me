@@ -51,7 +51,6 @@ const Post = ({
     undefined,
   )
   const isCurrentUser = session?.user?.username === username
-  console.log('isCurrentUser', isCurrentUser)
   const fetchProfilePicture = async () => {
     try {
       const base64Image = await getProfilePicture(username)
@@ -144,22 +143,26 @@ const Post = ({
             </div>
           )}
         </div>
-        <Avatar className='h-12 w-12 ml-4'>
-          <AvatarImage src={imageURL} alt='Profile Picture' />
-          <AvatarFallback>{username.slice(0, 3).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        {session && !isCurrentUser && (
-          <Button
-            onClick={handleFollowToggle}
-            className='mt-2'
-            disabled={isFollowing === undefined}
-          >
-            {isFollowing ? 'Unfollow' : 'Follow'}
-          </Button>
-        )}
+        <div className='flex flex-col items-center'>
+          <Avatar className='h-12 w-12 mb-2'>
+            <AvatarImage src={imageURL} alt='Profile Picture' />
+            <AvatarFallback>
+              {username.slice(0, 3).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          {session && !isCurrentUser && !isFollowing && (
+            <Button
+              onClick={handleFollowToggle}
+              className='text-xs px-2 py-1 h-6'
+              disabled={isFollowing === undefined}
+              variant='outline'
+            >
+              Follow
+            </Button>
+          )}
+        </div>
       </div>
       <Separator className=''></Separator>
-
       {textContent && (
         <CardContent className='p-4 pb-2'>{textContent}</CardContent>
       )}
