@@ -14,11 +14,13 @@ import { Separator } from './ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import Link from 'next/link'
 import { getProfilePicture } from '@/actions/profilepicture/getProfilePicture'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import { Heart, MessageCircle, Loader2, Bookmark } from 'lucide-react'
 import toggleLike from '@/actions/posts/likePost'
 import { toggleSave } from '@/actions/posts/savePost'
+import toggleFollow from '@/actions/user/followUser'
 import { ObjectId } from 'mongodb'
+import { Session } from 'next-auth'
 
 interface PostProps {
   username: string
@@ -27,13 +29,27 @@ interface PostProps {
   textContent?: string
   date: string
   postId: ObjectId // TODO change to string, also in feed
+  session?: Session
 }
 
-const Post = ({ username, title, textContent, date, postId }: PostProps) => {
+const Post = ({
+  username,
+  title,
+  textContent,
+  date,
+  postId,
+  session,
+}: PostProps) => {
   const [imageURL, setImageURL] = useState<string | undefined>(undefined)
   const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined)
   const [likeCount, setLikeCount] = useState<number | undefined>(undefined)
   const [isSaved, setIsSaved] = useState<boolean | undefined>(undefined)
+  const [isFollowing, setIsFollowing] = useState<boolean | undefined>(undefined)
+  const [followerCount, setFollowerCount] = useState<number | undefined>(
+    undefined,
+  )
+  const isCurrentUser = session?.user?.username === username
+  console.log('isCurrentUser', isCurrentUser)
   const fetchProfilePicture = async () => {
     try {
       const base64Image = await getProfilePicture(username)
@@ -76,6 +92,25 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
     fetchSaveStatus()
   }, [postId])
 
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      const result = await toggleFollow(username, 'status')
+      if (result.success) {
+        setIsFollowing(result.isFollowing)
+        setFollowerCount(result.totalFollowers)
+      }
+    }
+    fetchFollowStatus()
+  }, [username])
+
+  const handleFollowToggle = async () => {
+    const result = await toggleFollow(username, 'toggle')
+    if (result.success) {
+      setIsFollowing(result.isFollowing)
+      setFollowerCount(result.totalFollowers)
+    }
+  }
+
   const handleLikeClick = useCallback(async () => {
     const result = await toggleLike(postId, 'toggle')
     if (result.success) {
@@ -111,6 +146,15 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
           <AvatarImage src={imageURL} alt='Profile Picture' />
           <AvatarFallback>{username.slice(0, 3).toUpperCase()}</AvatarFallback>
         </Avatar>
+        {session && !isCurrentUser && (
+          <Button
+            onClick={handleFollowToggle}
+            className='mt-2'
+            disabled={isFollowing === undefined}
+          >
+            {isFollowing ? 'Unfollow' : 'Follow'}
+          </Button>
+        )}
       </div>
       <Separator className=''></Separator>
 

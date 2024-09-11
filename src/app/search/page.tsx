@@ -1,6 +1,5 @@
 import React from 'react'
 import db from '@/lib/db'
-import SearchBar from '@/components/searchbar'
 import Feed from '@/components/feed'
 import HomeNav from '@/components/homenavigation'
 import HomeSuggestedCard from '@/components/suggestedcard'

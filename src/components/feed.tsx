@@ -53,6 +53,7 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
             textContent={post.description}
             date={post.date.toString()}
             postId={post._id}
+            session={session || undefined}
           />
         ))}
       </>
@@ -108,6 +109,7 @@ const Feed = async ({ feedType, feedUsername, searchTerm }: FeedProps) => {
                 textContent={post.description}
                 date={post.date.toString()}
                 postId={post._id}
+                session={session || undefined}
               />
             ),
         )}
