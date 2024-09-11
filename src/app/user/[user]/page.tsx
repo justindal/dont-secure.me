@@ -33,9 +33,7 @@ const Page = async ({ params }: { params: { user: string } }) => {
             <ProfileHead
               username={user.username}
               displayName={user.name}
-              bio='john is a software engineer'
-              location='toronto'
-              website='john.com'
+              bio={user.bio}
               joinDate={new Date(user.date).toLocaleDateString()}
               session={session}
             ></ProfileHead>

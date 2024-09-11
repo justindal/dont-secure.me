@@ -29,8 +29,6 @@ interface ProfileHeadProps {
   username: string
   displayName?: string
   bio?: string
-  location?: string
-  website?: string
   joinDate: string
   session?: Session
 }
@@ -39,8 +37,6 @@ const ProfileHead = ({
   username,
   displayName,
   bio,
-  location,
-  website, // https:
   joinDate,
   session,
 }: ProfileHeadProps) => {
@@ -107,10 +103,12 @@ const ProfileHead = ({
             <div>
               {displayName && <CardTitle>{displayName}</CardTitle>}
               <div>@{username}</div>
-              {bio && <CardDescription className='pt-5'>{bio}</CardDescription>}
-              <CardDescription className='mb-0'>
-                joined {joinDate}
-              </CardDescription>
+              <div className='pt-5'>
+                {bio && <CardDescription>{bio}</CardDescription>}
+                <CardDescription className='mb-0 mt-0'>
+                  joined {joinDate}
+                </CardDescription>
+              </div>
             </div>
             <div className='flex flex-col items-center'>
               <Avatar className='h-16 w-16 mb-2'>

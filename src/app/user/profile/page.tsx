@@ -30,8 +30,6 @@ const page = async () => {
               username={session.user.username}
               displayName={session.user.name}
               bio='john is a software engineer'
-              location='toronto'
-              website='john.com'
               joinDate={new Date(session.user.date).toLocaleDateString()}
             ></ProfileHead>
             <Feed feedType='user' feedUsername={session.user.username}></Feed>{' '}
