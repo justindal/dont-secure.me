@@ -41,7 +41,7 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
         setImageURL(base64Image)
       }
     } catch (error) {
-      console.error('Error fetching profile picture:', error)
+      // console.error('Error fetching profile picture:', error) TODO remove
     }
   }
 
@@ -56,7 +56,7 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
         setIsLiked(result.isLiked)
         setLikeCount(result.totalLikes)
       } catch (error) {
-        console.error('Error fetching like status:', error)
+        // console.error('Error fetching like status:', error)
       }
     }
     fetchLikeStatus()
@@ -70,7 +70,7 @@ const Post = ({ username, title, textContent, date, postId }: PostProps) => {
           setIsSaved(result.isSaved)
         }
       } catch (error) {
-        console.error('Error fetching save status:', error)
+        // console.error('Error fetching save status:', error)
       }
     }
     fetchSaveStatus()

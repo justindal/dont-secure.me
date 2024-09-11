@@ -28,7 +28,8 @@ const UserCard = ({ username, displayName, bio }: UserCardProps) => {
   const [followerCount, setFollowerCount] = useState(0)
 
   const handleFollowToggle = async () => {
-    const result = await toggleFollow(username)
+    const result = await toggleFollow(username, 'toggle')
+    console.log('FOLLOWING RESULT:', result)
     if (result.success) {
       setIsFollowing(result.isFollowing)
       setFollowerCount(result.totalFollowers)
@@ -38,6 +39,7 @@ const UserCard = ({ username, displayName, bio }: UserCardProps) => {
   useEffect(() => {
     const fetchFollowStatus = async () => {
       const result = await toggleFollow(username, 'status')
+      console.log('fetch follow RESULT:', result)
       if (result.success) {
         setIsFollowing(result.isFollowing)
         setFollowerCount(result.totalFollowers)
