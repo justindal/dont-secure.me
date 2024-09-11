@@ -103,9 +103,9 @@ const ProfileHead = ({
             <div>
               {displayName && <CardTitle>{displayName}</CardTitle>}
               <div>@{username}</div>
-              <div className='pt-5'>
+              <div className='pt-5 mb-5'>
                 {bio && <CardDescription>{bio}</CardDescription>}
-                <CardDescription className='mb-0 mt-0'>
+                <CardDescription className='mb-1 mt-0'>
                   joined {joinDate}
                 </CardDescription>
               </div>
