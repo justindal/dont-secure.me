@@ -12,6 +12,9 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+
+import toggleFollow from '@/actions/user/followUser'
 
 interface UserCardProps {
   username: string
@@ -21,6 +24,28 @@ interface UserCardProps {
 
 const UserCard = ({ username, displayName, bio }: UserCardProps) => {
   const [imageURL, setImageURL] = useState<string | undefined>(undefined)
+  const [isFollowing, setIsFollowing] = useState(false)
+  const [followerCount, setFollowerCount] = useState(0)
+
+  const handleFollowToggle = async () => {
+    const result = await toggleFollow(username)
+    if (result.success) {
+      setIsFollowing(result.isFollowing)
+      setFollowerCount(result.totalFollowers)
+    }
+  }
+
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      const result = await toggleFollow(username, 'status')
+      if (result.success) {
+        setIsFollowing(result.isFollowing)
+        setFollowerCount(result.totalFollowers)
+      }
+    }
+    fetchFollowStatus()
+  }, [username])
+
   useEffect(() => {
     const fetchProfilePicture = async () => {
       try {
@@ -46,23 +71,27 @@ const UserCard = ({ username, displayName, bio }: UserCardProps) => {
     <div className='p-1 m-1'>
       <Card className='bg-gray-800'>
         <CardHeader className='m-1'>
-          <div className='flex justify-between items-center'>
-            <div>
+          <div className='flex justify-between items-start'>
+            <div className='flex flex-col'>
               <Link className='font-semibold' href={`/user/${username}`}>
                 @{username}
               </Link>
+              {bio && <p className='text-sm mt-2'>{bio}</p>}
+              <CardDescription>
+                <div className='text-sm mt-2'>{followerCount} followers</div>
+              </CardDescription>
             </div>
-            <Avatar className='h-16 w-16'>
-              <AvatarImage src={imageURL} alt='Profile Picture' />
-              <AvatarFallback>:)</AvatarFallback>
-            </Avatar>
+            <div className='flex flex-col items-center'>
+              <Avatar className='h-16 w-16 mb-2'>
+                <AvatarImage src={imageURL} alt='Profile Picture' />
+                <AvatarFallback>:)</AvatarFallback>
+              </Avatar>
+              <Button onClick={handleFollowToggle} className='mt-2'>
+                {isFollowing ? 'Unfollow' : 'Follow'}
+              </Button>
+            </div>
           </div>
         </CardHeader>
-        {bio && (
-          <CardContent>
-            <CardDescription className='text-sm'>{bio}</CardDescription>
-          </CardContent>
-        )}
       </Card>
     </div>
   )
