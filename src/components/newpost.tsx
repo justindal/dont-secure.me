@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/form'
 
 import { Textarea } from '@/components/ui/textarea'
-import { toast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import { SquarePlus } from 'lucide-react'
 
 import createPost from '@/actions/posts/createPost'
@@ -39,11 +39,12 @@ const NewPost = ({ session }: Props) => {
       title: '',
     },
   })
+  const { toast } = useToast()
 
   async function onSubmit() {
     toast({
       title: 'Post Submitted',
-      description: 'Your post has been submitted!',
+      description: 'Your post has been submitted: ' + form.getValues('description'),
     })
     // call api to submit post
     console.log('submitted post: ', form.getValues())

@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { useToast } from '@/hooks/use-toast'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -46,6 +48,7 @@ const RegisterDialog = ({
   trigger,
   isOpenInitial = true,
 }: RegisterDialogProps) => {
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -118,6 +121,10 @@ const RegisterDialog = ({
               formData.append('file', profilePicture.file)
               uploadImage(formData, data.username, 'pfp').then(() => {
                 console.log('uploaded')
+              })
+              toast({
+                title: 'Account created!',
+                description: 'Logging in now...',
               })
             }
 
