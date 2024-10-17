@@ -73,6 +73,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.date = user.date
       }
       return token
+    },
+    authorized({ auth }) {
+      return !!auth?.user
     }
   },
 })
