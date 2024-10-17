@@ -13,7 +13,7 @@ export default async function Home() {
     <div className='flex justify-center items-center min-h-screen'>
       <div className='flex flex-row items-center max-w-4xl mx-auto'>
         <div className='flex flex-col items-center p-6 max-w-md'>
-          <h1 className='text-3xl font-bold mb-4'>don't-secure.me</h1>
+          <h1 className='text-3xl font-bold mb-4'>don&apos;t-secure.me</h1>
           <p className='text-center'>an unsecured social media platform. please log in to continue.</p>
         </div>
 
