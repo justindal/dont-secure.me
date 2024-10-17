@@ -30,7 +30,7 @@ declare module 'next-auth' {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: MongoDBAdapter(db.clientPromise),
+  adapter: MongoDBAdapter(db.clientPromise) as any,
   session: { strategy: 'jwt' },
   ...authConfig,
   providers: [
