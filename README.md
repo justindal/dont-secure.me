@@ -72,3 +72,25 @@ unsecured social media platform
     "error": "user not found"
   }
   ```
+
+#### followUser
+
+- **Endpoint**: `/api/user/followUser`
+- **Method**: `GET` or `POST`
+- **Description**: `GET` returns follow status, `POST` follows user
+- **Query Parameters**:
+  - `username`: intended user to follow/unfollow
+- **GET Response**:
+  - **Status**: 201 OK
+  ```json
+  { "success": true, "isFollowing": false, "totalFollowers": 0 }
+  ```
+  - **Status**: 400 Bad Request
+  ```json
+  { "error": "User not found" }
+  ```
+  **POST Response**:
+  - **Status**: 201 OK
+  ```json
+  {"success":true,"message":"User followed successfully","action":"followed","isFollowing":true,"totalFollowers":1}```
+  ```
