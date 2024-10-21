@@ -2,6 +2,11 @@ import { auth, signIn } from '@/auth'
 import { NextResponse } from 'next/server'
 
 export const POST = auth(async function POST(req) {
+  // if user is already logged in, return user
+  if (await auth()) {
+    return NextResponse.json({ success: true, user: await auth() })
+  }
+
   try {
     const { username } = await req.json()
     const user = await signIn('credentials', {
