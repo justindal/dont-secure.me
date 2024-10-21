@@ -191,6 +191,7 @@ unsecured social media platform
 - **Method**: `POST`
 - **Description**: Logs out a user.
 - **Response**:
+
   - **Status**: 201 Created
 
   ```json
@@ -202,6 +203,41 @@ unsecured social media platform
 
   - **Status**: 400 Bad Request
 
+  ```json
+  {
+    "error": "User not authenticated"
+  }
+  ```
+
+### feed
+
+#### getFeed
+
+- **Endpoint**: `/api/getFeed`
+- **Method**: `GET`
+- **Description**: Retrieves the feed for the current user.
+- **Query Parameters**: -`type`: `string` - type of feed to retrieve
+  Possible Values: - `home` - `following` - `user` - `saved` - `searchUsers` -`limit`: `number` - number of posts to retrieve -`page`: `number` - page number -`username`: `string` - username of user to retrieve feed for -`query`: `string` - query to search for the searchUsers type
+  **Response**:
+  - **Status**: 201 OK
+  ```json
+  [
+    {
+      "_id": "some-object-id",
+      "username": "user1",
+      "content": "post content",
+      "date": "2023-10-01T00:00:00.000Z"
+    }
+    // ... other posts
+  ]
+  ```
+  - **Status**: 400 Bad Request
+  ```json
+  {
+    "error": "Invalid feed type"
+  }
+  ```
+  - **Status**: 400 Bad Request
   ```json
   {
     "error": "User not authenticated"
