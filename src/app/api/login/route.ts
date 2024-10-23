@@ -15,7 +15,7 @@ export const POST = auth(async function POST(req) {
       redirect: false,
     })
 
-    if (result && 'error' in result && !result.error) {
+    if (!result?.error) {
       const newSession = await auth()
       return NextResponse.json({ success: true, user: newSession?.user, session: newSession })
     } else {
