@@ -11,7 +11,7 @@ export const POST = auth(async function POST(req) {
       )
     }
 
-    const { file, username, filetype } = await req.json()
+    const { file, username, fileType } = await req.json()
 
     if (!file) {
       return NextResponse.json(
@@ -27,7 +27,7 @@ export const POST = auth(async function POST(req) {
       )
     }
 
-    if (!filetype) {
+    if (!fileType) {
       return NextResponse.json(
         { error: 'File type is required' },
         { status: 400 },
@@ -37,10 +37,10 @@ export const POST = auth(async function POST(req) {
     // Decode the base64 string to get the binary data
     const buffer = Buffer.from(file, 'base64')
     const formData = new FormData()
-    formData.append('file', new Blob([buffer]), `${username}.${filetype}`)
+    formData.append('file', new Blob([buffer]), `${username}.${fileType}`)
 
     // Upload the image
-    await uploadImage(formData, username, filetype)
+    await uploadImage(formData, username, fileType)
 
     return NextResponse.json({ success: true }, { status: 201 })
   } catch (error: any) {
