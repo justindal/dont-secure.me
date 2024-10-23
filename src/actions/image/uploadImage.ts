@@ -8,6 +8,7 @@ export const uploadImage = async (
   formData: FormData,
   username: string,
   imgType: string,
+  imgExtension?: string,
 ) => {
   const provider: common.ConfigFileAuthenticationDetailsProvider =
     new common.ConfigFileAuthenticationDetailsProvider()
@@ -23,17 +24,20 @@ export const uploadImage = async (
 
       const buffer = await file.arrayBuffer()
       const fileContent = new Uint8Array(buffer)
+      let ext = file.type.split('/')[1]
+      if (imgExtension) {
+        ext = imgExtension
+      } 
 
       const putObjectRequest = {
         namespaceName: process.env.NAMESPACE as string,
         bucketName: process.env.BUCKET_NAME as string,
-        objectName: `${imgType}s/${imgType}_${username}.${file.type.split('/')[1]}`,
+        objectName: `${imgType}s/${imgType}_${username}.${ext}`,
         putObjectBody: fileContent,
         contentType: file.type,
         contentLength: file.size,
       }
 
-      
       // Send request to the Client.
       const res = await client.putObject(putObjectRequest)
       // send objectName to mongodb users collection
