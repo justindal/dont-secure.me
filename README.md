@@ -3,7 +3,7 @@
 don't secure me is an experimental social platform where users can share posts and interact with each other, but with a twist — no passwords are required! Users can create new accounts or even log into those of others for a fun experience.
 
 ## 🚨 Warning
-This project is deliberately insecure and should NOT be used in production. It's meant for educational purposes only.
+This project is deliberately insecure. It's meant for experimental purposes only.
 
 ## 🌟 Features
 ### User Management
