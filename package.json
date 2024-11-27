@@ -1,0 +1,61 @@
+{
+  "name": "dont-secure.me",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint"
+  },
+  "engines": {
+    "node": "22.6.0"
+  },
+  "dependencies": {
+    "@auth/mongodb-adapter": "^3.5.2",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-navigation-menu": "^1.2.0",
+    "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.447.0",
+    "mongodb": "^6.9.0",
+    "mongodb-client-encryption": "^6.1.0",
+    "next": "^14.2.13",
+    "next-auth": "^5.0.0-beta.17",
+    "next-themes": "^0.3.0",
+    "oci-common": "^2.94.0",
+    "oci-objectstorage": "^2.94.0",
+    "openai": "^4.72.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.14",
+    "postcss": "^8",
+    "prettier": "3.3.3",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "jsxSingleQuote": true
+  }
+}
