@@ -17,8 +17,8 @@ This project is deliberately insecure. It's meant for experimental purposes only
 - Friend/Follow system
 - Interaction through likes and saves
 
-## 🧪 Testflight Link
-If you have an iOS device try out the mobile beta [here!](https://testflight.apple.com/join/JTftNpFY)
+## 📱 iOS App
+If you have an iOS device download the app [here!](https://apps.apple.com/ca/app/dont-secure-me/id6738100050)
 
 ## 🛠️ API Routes
 
